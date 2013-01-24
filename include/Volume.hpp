@@ -45,7 +45,7 @@ struct Volume {
     {}
 };
 
-typedef std::list<Volume> VolumeList;
+typedef std::list<Volume*> VolumeList;
 
 
 }  // namespace

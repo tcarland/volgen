@@ -109,7 +109,8 @@ struct PrintTreePredicate {
 
 
 VolGen::VolGen ( const std::string & path )
-    : _path(path),
+    : _curv(NULL),
+      _path(path),
       _volsz(VOLGEN_VOLUME_MB),
       _debug(false)
 {
@@ -285,19 +286,14 @@ VolGen::createVolumes ( const std::string & path )
         return;
     }
 
-    Volume  v;
+    Volume * v = NULL;
 
-    if ( _vols.size() > 0 ) {
-        v = _vols.back();
-        if ( v.vtot < 95.0 )
-            _vols.pop_back();
-        else
-            v = Volume(VolGen::GetVolumeName(_vols.size()));
-    } else {
-        v = Volume(VolGen::GetVolumeName(_vols.size()));
+    if ( _curv == NULL ) {
+        _curv = new Volume(VolGen::GetVolumeName(_vols.size()));
+        _vols.push_back(_curv);
     }
 
-    std::cout << v.name << ":" << std::endl;
+    //std::cout << _curv->name << ":" << std::endl;
 
     DirTree::NodeMap & nodemap = node->getChildren();
     DirTree::NodeMapIter nIter;
@@ -313,13 +309,15 @@ VolGen::createVolumes ( const std::string & path )
 
         if ( dirsize.fsize == 0 )
             continue;
-
+    
         if ( vol > 95.0 ) {
-            _vols.push_back(v);
+            //_vols.push_back(v);
             std::string dirstr = "/" + nIter->second->getAbsoluteName();
             this->createVolumes(dirstr);
             continue;
         }
+
+        v = _curv;
 
         VolumeItem item;
         item.fullname = "/" + nIter->second->getAbsoluteName();
@@ -327,14 +325,15 @@ VolGen::createVolumes ( const std::string & path )
         item.size     = dmb;
         item.vrat     = vol;
 
-        if ( (v.vtot+vol) > 95.0 ) {
+        if ( (v->vtot + vol) > 95.0 ) {
+            v     = new Volume(VolGen::GetVolumeName(_vols.size()));
+            _curv = v;
             _vols.push_back(v);
-            v = Volume(VolGen::GetVolumeName(_vols.size()));
         }
 
-        v.size += item.size;
-        v.vtot += item.vrat;
-        v.items.push_back(item);
+        v->size += item.size;
+        v->vtot += item.vrat;
+        v->items.push_back(item);
     }
 
     AssetSet & assets = node->getValue().files;
@@ -354,23 +353,23 @@ VolGen::createVolumes ( const std::string & path )
             continue;
         }
 
+        v = _curv;
+
         item.fullname = file.getFileName();
         item.name     = FileNode::GetNameOnly(item.fullname);
         item.size     = fmb;
         item.vrat     = vol;
 
-        if ( (v.vtot + vol) > 95.0 ) {
+        if ( (v->vtot + vol) > 95.0 ) {
+            v     = new Volume(VolGen::GetVolumeName(_vols.size()));
+            _curv = v;
             _vols.push_back(v);
-            v = Volume(VolGen::GetVolumeName(_vols.size()));
         }
 
-        v.size += item.size;
-        v.vtot += item.vrat;
-        v.items.push_back(item);
+        v->size += item.size;
+        v->vtot += item.vrat;
+        v->items.push_back(item);
     }
-
-    if ( v.size > 0 )
-        _vols.push_back(v);
 
     return;
 }
@@ -385,13 +384,14 @@ VolGen::displayVolumes ( bool show )
 
     for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
     {
-        std::cout << vIter->name << " : " << vIter->size << " Mb : " 
-            << vIter->vtot << "% : " << (vIter->items.size() + 1) 
+        Volume * v = (Volume*) *vIter;
+        std::cout << v->name << " : " << v->size << " Mb : " 
+            << v->vtot << "% : " << (v->items.size() + 1) 
             << " item(s)" << std::endl;
         
         if ( show ) {
             ItemList::iterator iIter;
-            for ( iIter = vIter->items.begin(); iIter != vIter->items.end(); ++iIter ) 
+            for ( iIter = v->items.begin(); iIter != v->items.end(); ++iIter ) 
             {
                 std::cout << "   " << iIter->name << " : " << iIter->size << " Mb : "
                     << iIter->vrat << " %" << std::endl;
@@ -413,9 +413,9 @@ VolGen::generateVolumes ( const std::string & volpath )
 
     for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
     {
-        Volume & vol = *vIter;
+        Volume * vol = *vIter;
         newpath      = volpath;
-        newpath.append("/").append(vol.name);
+        newpath.append("/").append(vol->name);
         newpath.append("/");
 
         //std::cout << vol.name << " = " << newpath << std::endl;
@@ -435,7 +435,7 @@ VolGen::generateVolumes ( const std::string & volpath )
         }
 
         ItemList::iterator iIter;
-        for ( iIter = vIter->items.begin(); iIter != vIter->items.end(); ++iIter ) 
+        for ( iIter = vol->items.begin(); iIter != vol->items.end(); ++iIter ) 
         {
             VolumeItem & item = *iIter;
             std::string slink = newpath;

@@ -1,4 +1,4 @@
-TOPDIR = ../tnms
+TOPDIR = ../../tnms
 
 NEED_SOCKET = 1
 NEED_PTHREADS = 1
@@ -8,7 +8,7 @@ ifdef TNMS_DEBUG
 OPT_FLAGS =     -g
 endif
 
-LIBS =  -lrt
+LIBS =  	-lrt
 INCLUDES =      -Iinclude
 
 BIN =		volgen

@@ -72,6 +72,7 @@ class VolGen {
 
     DirTree     _dtree;
     VolumeList  _vols;
+    Volume*     _curv;
 
     std::string _path;
 
