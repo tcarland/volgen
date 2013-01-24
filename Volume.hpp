@@ -1,6 +1,6 @@
 /**
   * @file include/Volume.hpp 
-  * @author 
+  * @author tcarland@gmail.com
   * 
  **/
 #ifndef _VOLGEN_VOLUME_HPP_

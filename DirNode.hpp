@@ -20,10 +20,10 @@ class DirNode;
 #define VOLGEN_NODESIZE   4096
 
 
-/**  DirNode represents a filesystem directory node with 
+/**  DirNode represents a filesystem directory node within 
   *  our custom DirectoryTree (the DirTree object). Each 
   *  instance holds a list of 'FileNode' assets for this 
-  *  directory level only as our tree maintains the directory 
+  *  directory level only as the tree maintains the directory 
   *  structure.
  **/
 class DirNode {
@@ -33,7 +33,9 @@ class DirNode {
     AssetSet  files;
     uint32_t  dnodesz;
 
+
     DirNode() : dnodesz(VOLGEN_NODESIZE) {}
+
 
     uint64_t getFileSize() const
     {
@@ -65,8 +67,8 @@ class DirNode {
 };
 
 
-
 }  // namespace
 
 
 #endif  // _VOLGEN_DIRNODE_HPP_
+
