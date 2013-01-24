@@ -118,6 +118,11 @@ VolGen::VolGen ( const std::string & path )
 
 VolGen::~VolGen()
 {
+    VolumeList::iterator vIter;
+
+    for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
+        delete *vIter;
+    _vols.clear();
 }
 
 
@@ -293,8 +298,6 @@ VolGen::createVolumes ( const std::string & path )
         _vols.push_back(_curv);
     }
 
-    //std::cout << _curv->name << ":" << std::endl;
-
     DirTree::NodeMap & nodemap = node->getChildren();
     DirTree::NodeMapIter nIter;
 
@@ -305,7 +308,7 @@ VolGen::createVolumes ( const std::string & path )
         _dtree.depthFirstTraversal(nIter->second, dirsize);
 
         float dmb = (dirsize.dsize / (1024 * 1024));
-        float vol = (dmb / 4400) * 100.0;               // FIX volume size
+        float vol = (dmb / _volsz) * 100.0;
 
         if ( dirsize.fsize == 0 )
             continue;
@@ -345,7 +348,7 @@ VolGen::createVolumes ( const std::string & path )
         VolumeItem       item;
 
         float fmb = (file.getDiskSize() / (1024 * 1024));
-        float vol = (fmb / 4400) * 100.0;  // TODO: Volume size should not be hardcoded
+        float vol = (fmb / _volsz) * 100.0;
 
         if ( vol > 95.0 ) {
             std::cout << "WARNING: File is larger than volume size, skipping file: " 
