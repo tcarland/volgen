@@ -1,10 +1,12 @@
+/**
+  * @file src/VolGen.cpp
+  * @author tcarland@gmail.com
+ **/
 #define _VOLGEN_VOLGEN_CPP_
 
 extern "C" {
-#include <errno.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <string.h>
 }
 
 #include <sys/stat.h>
@@ -23,6 +25,7 @@ namespace volgen {
 // -------------------------------------------------------------- //
 // DirTree Predicates
 
+/**  Predicate for accumulating the total size of a directory */
 struct DirSizePredicate {
     uint64_t  fsize, dsize, dcount, fcount;
 
@@ -39,11 +42,12 @@ struct DirSizePredicate {
     }
 };
 
-
+/** Predicate for displaying the size of a directory tree */
 struct PrintTreePredicate {
     DirTree     * tree;
     std::string   rootpath;
     std::string   disppath;
+
 
     explicit PrintTreePredicate ( DirTree           * dtree, 
                                   const std::string & rootPath,
@@ -64,6 +68,7 @@ struct PrintTreePredicate {
                   << "----------------------" 
                   << std::endl;
     }
+
 
     void operator() ( DirTree::Node * node )
     {
@@ -126,18 +131,24 @@ VolGen::~VolGen()
 }
 
 
+/**  Reads and parses the given root directory building a tree of the 
+  *  underlying directory structure.
+ **/
 bool
 VolGen::read()
 {
     return this->readDirectory(_path);
 }
 
+/**  Creates a list of Volumes from the directory tree. */
 void
 VolGen::createVolumes()
 {
     return this->createVolumes(_path);
 }
 
+
+/**  Used for recursively walking the directory tree */
 bool
 VolGen::readDirectory ( const std::string & path )
 {
@@ -256,6 +267,7 @@ VolGen::readDirectory ( const std::string & path )
 }
 
 
+/**  Displays the given directory tree and associated sizes */
 void
 VolGen::displayTree()
 {
@@ -281,6 +293,9 @@ VolGen::displayTree()
 }
 
 
+/**  Method for recursively walking the directory and file structure
+  *  for building the Volume list.
+ **/
 void
 VolGen::createVolumes ( const std::string & path )
 {
@@ -377,7 +392,7 @@ VolGen::createVolumes ( const std::string & path )
     return;
 }
 
-
+/**  Displays the created Volume list */
 void 
 VolGen::displayVolumes ( bool show )
 {
@@ -407,6 +422,7 @@ VolGen::displayVolumes ( bool show )
 }
 
 
+/**  Generates the volume linkage in the provided path */
 void 
 VolGen::generateVolumes ( const std::string & volpath )
 {
@@ -459,6 +475,7 @@ VolGen::generateVolumes ( const std::string & volpath )
 }
 
 
+/** Determines the size of the give directory */
 uint64_t 
 VolGen::getDirSize ( const std::string & path )
 {
@@ -472,18 +489,20 @@ VolGen::getDirSize ( const std::string & path )
     return dirsize.dsize;
 }
 
-
+/**  Sets a fixed size of all volumes to be generated. */
 void
 VolGen::setVolumeSize ( size_t volsz )
 {
     _volsz = volsz;
 }
 
+/**  Returns the configured volume size */
 size_t
 VolGen::getVolumeSize() const
 {
     return _volsz;
 }
+
 
 void
 VolGen::setDebug ( bool d )
@@ -491,7 +510,7 @@ VolGen::setDebug ( bool d )
     _debug = d;
 }
 
-
+/** Creates a string of the next volume name in the list */
 std::string 
 VolGen::GetVolumeName ( size_t volsz )
 {
@@ -501,7 +520,7 @@ VolGen::GetVolumeName ( size_t volsz )
 }
 
 
-
+/** Static function for determining the current working directory */
 std::string 
 VolGen::GetCurrentPath()
 {

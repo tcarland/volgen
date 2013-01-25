@@ -1,24 +1,14 @@
 #define _VOLGEN_MAIN_CPP_
 
-extern "C" {
-#include <errno.h>
-#include <unistd.h>
-#include <dirent.h>
-#include <string.h>
-}
-
 #include <cstdlib>
 #include <iostream>
-#include <iomanip>
 
 
 #include "VolGen.h"
 using namespace volgen;
 
-
 #include "FileUtils.h"
 using namespace tcanetpp;
-
 
 
 void usage()

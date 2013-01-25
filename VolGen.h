@@ -33,6 +33,7 @@ namespace volgen {
 #define VOLGEN_BLOCKSIZE        512
 
 
+
 typedef tcanetpp::HeirarchicalStringTree<DirNode>  DirTree;
 
 
@@ -47,6 +48,7 @@ class VolGen {
     bool     read();
 
     void     displayTree();
+
     void     createVolumes();
     void     displayVolumes ( bool show = false );
 

@@ -4,9 +4,9 @@
 #  -f follow symlinks
 #  -J Joliet extentions
 #  -R RockRidge extensions
+#
 
-
-VERSION="0.1"
+VERSION="0.12"
 AUTHOR="tcarland@gmail.com"
 
 VERBOSE=0
@@ -32,7 +32,7 @@ usage()
 
 version()
 {
-    echo "$0 $VERSION ($AUTHOR)"
+    echo "$0 v$VERSION ($AUTHOR)"
 }
 
 
