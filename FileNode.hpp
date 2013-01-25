@@ -17,6 +17,7 @@ using namespace tcanetpp;
 
 namespace volgen {
 
+
 class FileNode;
 typedef std::set<FileNode>  AssetSet;
 
@@ -25,6 +26,7 @@ typedef std::set<FileNode>  AssetSet;
   *  filesize and blocksize attributes
  **/
 class FileNode {
+
   public:
 
     FileNode ( const std::string & filename, uint64_t sz, uint64_t blksz = 0 )
@@ -45,7 +47,7 @@ class FileNode {
     uint64_t      getDiskSize()  const  { return blockSize; }
     uint64_t      getBlockSize() const  { return blockSize; }
 
-    //void          statFileInfo();
+
     static std::string GetNameOnly ( const std::string & fname )
     {
         std::string name;
@@ -58,12 +60,12 @@ class FileNode {
     }
  
   public:
+
     std::string   fileName;
     uint64_t      fileSize;
     uint64_t      blockSize;
     bool          symlink;
-
-    // sync time?
+    
 };
 
 

@@ -7,8 +7,6 @@
 #define _VOLGEN_DIRNODE_HPP_
 
 #include "FileNode.hpp"
-#include "DirNode.hpp"
-#include "Volume.hpp"
 
 
 namespace volgen {
@@ -30,12 +28,7 @@ class DirNode {
 
   public:
 
-    AssetSet  files;
-    uint32_t  dnodesz;
-
-
     DirNode() : dnodesz(VOLGEN_NODESIZE) {}
-
 
     uint64_t getFileSize() const
     {
@@ -64,6 +57,12 @@ class DirNode {
     {
         return this->files.size();
     }
+
+  public:
+
+    AssetSet  files;
+    uint32_t  dnodesz;
+
 };
 
 

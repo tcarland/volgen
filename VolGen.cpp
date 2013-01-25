@@ -117,6 +117,7 @@ VolGen::VolGen ( const std::string & path )
     : _curv(NULL),
       _path(path),
       _volsz(VOLGEN_VOLUME_MB),
+      _blksz(VOLGEN_BLOCKSIZE),
       _debug(false)
 {
 }
@@ -187,7 +188,7 @@ VolGen::readDirectory ( const std::string & path )
         }
 
         if ( S_ISLNK(lsb.st_mode) ) {
-            bltotal += (lsb.st_blocks * VOLGEN_BLOCKSIZE);
+            bltotal += (lsb.st_blocks * _blksz);
             link = true;
             if ( _debug ) 
                 std::cout << " l> " << dname << std::endl;
@@ -201,7 +202,7 @@ VolGen::readDirectory ( const std::string & path )
         if ( ! link && S_ISDIR(fsb.st_mode) ) 
         {
             size = fsb.st_size;
-            blks = (fsb.st_blocks * VOLGEN_BLOCKSIZE);
+            blks = (fsb.st_blocks * _blksz);
             node = _dtree.find(dname);
 
             if ( node == NULL ) 
@@ -223,7 +224,7 @@ VolGen::readDirectory ( const std::string & path )
         else 
         {
             size = fsb.st_size;
-            blks = (fsb.st_blocks * VOLGEN_BLOCKSIZE);
+            blks = (fsb.st_blocks * _blksz);
             node = _dtree.find(path);
 
             if ( node == NULL ) {
@@ -503,6 +504,21 @@ VolGen::getVolumeSize() const
     return _volsz;
 }
 
+/**  Sets the configured disk block size used for 
+  *  calculating dir/file actual bytes consumed.
+ **/
+void
+VolGen::setBlockSize ( size_t blksz )
+{
+    _blksz = blksz;
+}
+
+/**  Returns the configured block size. */
+size_t
+VolGen::getBlockSize() const
+{
+    return _blksz;
+}
 
 void
 VolGen::setDebug ( bool d )
