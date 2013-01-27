@@ -163,6 +163,7 @@ VolGen::readDirectory ( const std::string & path )
     uint64_t       bytotal = 0;
     uint64_t       bltotal = 4096;
     bool           link    = false;
+    bool           result  = true;
 
     DirTree::Node * node = NULL;
 
@@ -211,7 +212,8 @@ VolGen::readDirectory ( const std::string & path )
                 node = _dtree.insert(dname, std::inserter(branches, branches.begin()));
                 if ( node == NULL ) {
                     std::cout << "Failed to insert path into DirTree " << std::endl;
-                    return false;
+                    result = false;
+                    break;
                 }
             }
             if ( _debug ) 
@@ -232,7 +234,8 @@ VolGen::readDirectory ( const std::string & path )
                 node = _dtree.insert(path, std::inserter(branches, branches.begin()));
                 if ( node == NULL ) {
                     std::cout << "Failed to find path in DirTree " << path << std::endl;
-                    return false;
+                    result = false;
+                    break;
                 } else if ( _debug ) {
                     std::cout << "added path '" << path << "' to DirTree" << std::endl;
                 }
@@ -258,13 +261,14 @@ VolGen::readDirectory ( const std::string & path )
             }
         }
     }
+    ::closedir(dirp);
 
     if ( _debug ) {
         std::cout << "Total File sizes: " << (bytotal/1024) << " Kbytes. Blocks: "
             << (bltotal/1024) << std::endl;
     }
 
-    return true;
+    return result;
 }
 
 
