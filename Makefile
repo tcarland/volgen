@@ -4,7 +4,7 @@ NEED_SOCKET = 1
 NEED_PTHREADS = 1
 NEED_TCANETPP = 1
 
-ifdef TNMS_DEBUG
+ifdef SYSENG_DEBUG
 OPT_FLAGS =     -g
 endif
 
@@ -36,4 +36,4 @@ distclean: clean
 	$(RM) $(BIN)
 
 install:
-	
+
