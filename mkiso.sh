@@ -6,7 +6,7 @@
 #  -R RockRidge extensions
 #
 
-VERSION="0.15"
+VERSION="0.20"
 AUTHOR="tcarland@gmail.com"
 
 VERBOSE=0
@@ -35,6 +35,36 @@ usage()
 version()
 {
     echo "$0 v$VERSION ($AUTHOR)"
+}
+
+ask()
+{
+    while true; do
+        local prompt
+        local default
+
+        if [ "${2:-}" == "Y" ]; then
+            prompt="Y/n"
+            default="Y"
+        elif [ "${2:-}" == "N" ]; then
+            prompt="y/N"
+            default="N"
+        else
+            prompt="y/n"
+            default=
+        fi
+
+        read -p "$1 [$prompt] " REPLY
+
+        if [ -z "$REPLY" ]; then
+            REPLY=$default
+        fi
+
+        case "$REPLY" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
 }
 
 
@@ -86,14 +116,20 @@ fi
 version
 
 if [ -e $target ] && [ $LOOP -eq 0 ]; then
-    echo "Target exists, overwrite (y/n)?"
-    select yn in "Yes" "No"; do
-        case $yn in
-            Yes) echo "  Overwriting $target"; break;;
-            No ) echo "  You said $yn, stopping.."; exit;;
-        esac
-    done
+    if ask "Target exists, do you want to overwrite?" N; then
+        echo "  Overwriting $target"
+    else
+        echo "  You said no, stopping.."
+        exit 0
+    fi
 fi
+    #echo "Target exists, overwrite (y/n)?"
+    #select yn in "Yes" "No"; do
+        #case $yn in
+            #Yes) echo "  Overwriting $target"; break;;
+            #No ) echo "  You said $yn, stopping.."; exit;;
+        #esac
+    #done
 
 if [ $DRYRUN -eq 1 ]; then
     echo "  DRYRUN enabled"
