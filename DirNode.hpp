@@ -1,6 +1,6 @@
 /**
   * @file include/DirNode.hpp 
-  * @author 
+  * @author  Timothy C. Arland <tcarland@gmail.com>
   * 
  **/
 #ifndef _VOLGEN_DIRNODE_HPP_
@@ -56,6 +56,11 @@ class DirNode {
     uint32_t getFileCount() const
     {
         return this->files.size();
+    }
+
+    void     setNodeSize ( uint32_t sz )
+    {
+        dnodesz = sz;
     }
 
   public:

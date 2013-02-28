@@ -25,8 +25,8 @@ using namespace tcanetpp;
 namespace volgen {
 
 
-#define VOLGEN_VERSION "v0.203"
-#define VOLGEN_LICENSE "Copyright (c)2010-2013 Timothy C. Arland (tcarland@gmail.com)"
+#define VOLGEN_VERSION "v0.204"
+#define VOLGEN_LICENSE "Copyright (c)2010-2013 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR       ".volgen"
 #define VOLGEN_DEFAULT_NAME     "Volume_"
@@ -34,16 +34,16 @@ namespace volgen {
 #define VOLGEN_BLOCKSIZE        512
 
 
-
 typedef tcanetpp::HeirarchicalStringTree<DirNode>  DirTree;
+
 
 struct VolumeItem {
     std::string  fullname;
     std::string  name;
     uint64_t     size;
-    float        vrat;
+    float        vratio;
 
-    VolumeItem() : size(0), vrat(0.0) {}
+    VolumeItem() : size(0), vratio(0.0) {}
 };
 
 typedef std::list<VolumeItem> ItemList;
@@ -53,14 +53,14 @@ struct Volume {
     std::string  name;
     ItemList     items;
     uint64_t     size;
-    float        vtot;
+    float        vtotal;
 
-    Volume() : size(0), vtot(0.0) {}
+    Volume() : size(0), vtotal(0.0) {}
 
     Volume ( const std::string & vname ) 
         : name(vname),
           size(0), 
-          vtot(0.0) 
+          vtotal(0.0) 
     {}
 };
 
@@ -97,7 +97,7 @@ class VolGen {
     static std::string  GetVolumeName ( size_t sz );
 
 
-  protected:
+  private:
 
     bool     readDirectory ( const std::string & path );
     void     createVolumes ( const std::string & path );

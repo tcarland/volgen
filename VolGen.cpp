@@ -148,7 +148,6 @@ VolGen::createVolumes()
     return this->createVolumes(_path);
 }
 
-
 /**  Used for recursively walking the directory tree */
 bool
 VolGen::readDirectory ( const std::string & path )
@@ -297,7 +296,6 @@ VolGen::displayTree()
     return;
 }
 
-
 /**  Method for recursively walking the directory and file structure
   *  for building the Volume list.
  **/
@@ -346,16 +344,16 @@ VolGen::createVolumes ( const std::string & path )
         item.fullname = "/" + nIter->second->getAbsoluteName();
         item.name     = nIter->second->getName();
         item.size     = dmb;
-        item.vrat     = vol;
+        item.vratio   = vol;
 
-        if ( (v->vtot + vol) > 95.0 ) {
+        if ( (v->vtotal + vol) > 95.0 ) {
             v     = new Volume(VolGen::GetVolumeName(_vols.size()));
             _curv = v;
             _vols.push_back(v);
         }
 
-        v->size += item.size;
-        v->vtot += item.vrat;
+        v->size   += item.size;
+        v->vtotal += item.vratio;
         v->items.push_back(item);
     }
 
@@ -381,16 +379,16 @@ VolGen::createVolumes ( const std::string & path )
         item.fullname = file.getFileName();
         item.name     = FileNode::GetNameOnly(item.fullname);
         item.size     = fmb;
-        item.vrat     = vol;
+        item.vratio   = vol;
 
-        if ( (v->vtot + vol) > 95.0 ) {
+        if ( (v->vtotal + vol) > 95.0 ) {
             v     = new Volume(VolGen::GetVolumeName(_vols.size()));
             _curv = v;
             _vols.push_back(v);
         }
 
-        v->size += item.size;
-        v->vtot += item.vrat;
+        v->size   += item.size;
+        v->vtotal += item.vratio;
         v->items.push_back(item);
     }
 
@@ -409,7 +407,7 @@ VolGen::displayVolumes ( bool show )
     {
         Volume * v = (Volume*) *vIter;
         std::cout << v->name << " : " << v->size << " Mb : " 
-            << v->vtot << "% : " << (v->items.size() + 1) 
+            << v->vtotal << "% : " << (v->items.size() + 1) 
             << " item(s)" << std::endl;
         
         if ( show ) {
@@ -417,7 +415,7 @@ VolGen::displayVolumes ( bool show )
             for ( iIter = v->items.begin(); iIter != v->items.end(); ++iIter ) 
             {
                 std::cout << "   " << iIter->name << " : " << iIter->size << " Mb : "
-                    << iIter->vrat << " %" << std::endl;
+                    << iIter->vratio << " %" << std::endl;
             }
         }
     }
@@ -426,8 +424,7 @@ VolGen::displayVolumes ( bool show )
     return;
 }
 
-
-/**  Generates the volume linkage in the provided path */
+/**  Generates the volume linkage in the given path */
 void 
 VolGen::generateVolumes ( const std::string & volpath )
 {
@@ -441,8 +438,6 @@ VolGen::generateVolumes ( const std::string & volpath )
         newpath      = volpath;
         newpath.append("/").append(vol->name);
         newpath.append("/");
-
-        //std::cout << vol.name << " = " << newpath << std::endl;
 
         struct stat sb;
         if ( ::stat(newpath.c_str(), &sb) != 0 ) 
@@ -478,7 +473,6 @@ VolGen::generateVolumes ( const std::string & volpath )
 
     return;
 }
-
 
 /** Determines the size of the give directory */
 uint64_t 
@@ -530,6 +524,7 @@ VolGen::setDebug ( bool d )
     _debug = d;
 }
 
+
 /** Creates a string of the next volume name in the list */
 std::string 
 VolGen::GetVolumeName ( size_t volsz )
@@ -538,7 +533,6 @@ VolGen::GetVolumeName ( size_t volsz )
     vol << "Volume_" << std::setfill('0') << std::setw(2) << (volsz + 1);
     return vol.str();
 }
-
 
 /** Static function for determining the current working directory */
 std::string 
@@ -557,8 +551,6 @@ VolGen::GetCurrentPath()
 }
 
 
-
 }  // namespace
-
 
 // _VOLGEN_VOLGEN_CPP_
