@@ -41,6 +41,13 @@ class FileNode {
         return(fileName < f.getFileName());
     }
 
+    bool operator== ( const FileNode & f ) const
+    {
+        if ( this->fileName.compare(f.fileName) == 0 )
+            return true;
+        return false;
+    }
+
     const
     std::string&  getFileName()  const  { return fileName; }
     uint64_t      getFileSize()  const  { return fileSize; }

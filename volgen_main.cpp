@@ -128,7 +128,7 @@ int main ( int argc, char **argv )
         return -1;
     }
 
-    VolGen vgen(curdir);
+    VolGen  vgen(curdir);
 
     vgen.setVolumeSize(volsz);
     vgen.setDebug(debug);

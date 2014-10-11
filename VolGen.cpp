@@ -10,16 +10,14 @@ extern "C" {
 }
 
 #include <sys/stat.h>
-
 #include <iostream>
 #include <iomanip>
-
 
 #include "VolGen.h"
 
 
-namespace volgen {
 
+namespace volgen {
 
 
 // -------------------------------------------------------------- //
@@ -138,7 +136,7 @@ VolGen::~VolGen()
 bool
 VolGen::read()
 {
-    return this->readDirectory(_path);
+    return this->readDirectory(_path);depthFirstTraversal
 }
 
 /**  Creates a list of Volumes from the directory tree. */
@@ -232,11 +230,11 @@ VolGen::readDirectory ( const std::string & path )
                 DirTree::BranchNodeList  branches;
                 node = _dtree.insert(path, std::inserter(branches, branches.begin()));
                 if ( node == NULL ) {
-                    std::cout << "Failed to find path in DirTree " << path << std::endl;
+                    std::cout << "Failed to insert path in DirTree " << path << std::endl;
                     result = false;
                     break;
                 } else if ( _debug ) {
-                    std::cout << "added path '" << path << "' to DirTree" << std::endl;
+                    std::cout << "  added path '" << path << "' to DirTree" << std::endl;
                 }
             }
 
@@ -309,7 +307,7 @@ VolGen::createVolumes ( const std::string & path )
         return;
     }
 
-    Volume * v = NULL;
+    Volume * vol = NULL;
 
     if ( _curv == NULL ) {
         _curv = new Volume(VolGen::GetVolumeName(_vols.size()));
@@ -326,35 +324,35 @@ VolGen::createVolumes ( const std::string & path )
         _dtree.depthFirstTraversal(nIter->second, dirsize);
 
         float dmb = (dirsize.dsize / (1024 * 1024));
-        float vol = (dmb / _volsz) * 100.0;
+        float vrt = (dmb / _volsz) * 100.0;
 
         if ( dirsize.fsize == 0 )
             continue;
     
-        if ( vol > 95.0 ) {
+        if ( vrt > 95.0 ) {
             //_vols.push_back(v);
             std::string dirstr = "/" + nIter->second->getAbsoluteName();
             this->createVolumes(dirstr);
             continue;
         }
 
-        v = _curv;
+        vol = _curv;
 
         VolumeItem item;
         item.fullname = "/" + nIter->second->getAbsoluteName();
         item.name     = nIter->second->getName();
         item.size     = dmb;
-        item.vratio   = vol;
+        item.vratio   = vrt;
 
-        if ( (v->vtotal + vol) > 95.0 ) {
-            v     = new Volume(VolGen::GetVolumeName(_vols.size()));
-            _curv = v;
-            _vols.push_back(v);
+        if ( (vol->vtotal + vrt) > 95.0 ) {
+            vol   = new Volume(VolGen::GetVolumeName(_vols.size()));
+            _curv = vol;
+            _vols.push_back(vol);
         }
 
-        v->size   += item.size;
-        v->vtotal += item.vratio;
-        v->items.push_back(item);
+        vol->size   += item.size;
+        vol->vtotal += item.vratio;
+        vol->items.push_back(item);
     }
 
     AssetSet & assets = node->getValue().files;
@@ -366,30 +364,30 @@ VolGen::createVolumes ( const std::string & path )
         VolumeItem       item;
 
         float fmb = (file.getDiskSize() / (1024 * 1024));
-        float vol = (fmb / _volsz) * 100.0;
+        float vrt = (fmb / _volsz) * 100.0;
 
-        if ( vol > 95.0 ) {
+        if ( vrt > 95.0 ) {
             std::cout << "WARNING: File is larger than volume size, skipping file: " 
                 << file.getFileName() << std::endl;
             continue;
         }
 
-        v = _curv;
+        vol = _curv;
 
         item.fullname = file.getFileName();
         item.name     = FileNode::GetNameOnly(item.fullname);
         item.size     = fmb;
-        item.vratio   = vol;
+        item.vratio   = vrt;
 
-        if ( (v->vtotal + vol) > 95.0 ) {
-            v     = new Volume(VolGen::GetVolumeName(_vols.size()));
-            _curv = v;
-            _vols.push_back(v);
+        if ( (vol->vtotal + vrt) > 95.0 ) {
+            vol   = new Volume(VolGen::GetVolumeName(_vols.size()));
+            _curv = vol;
+            _vols.push_back(vol);
         }
 
-        v->size   += item.size;
-        v->vtotal += item.vratio;
-        v->items.push_back(item);
+        vol->size   += item.size;
+        vol->vtotal += item.vratio;
+        vol->items.push_back(item);
     }
 
     return;
@@ -405,9 +403,9 @@ VolGen::displayVolumes ( bool show )
 
     for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
     {
-        Volume * v = (Volume*) *vIter;
-        std::cout << v->name << " : " << v->size << " Mb : " 
-            << v->vtotal << "% : " << (v->items.size() + 1) 
+        Volume * vol = (Volume*) *vIter;
+        std::cout << vol->name << " : " << vol->size << " Mb : " 
+            << vol->vtotal << "% : " << (vol->items.size() + 1) 
             << " item(s)" << std::endl;
         
         if ( show ) {
