@@ -136,7 +136,7 @@ VolGen::~VolGen()
 bool
 VolGen::read()
 {
-    return this->readDirectory(_path);depthFirstTraversal
+    return this->readDirectory(_path);
 }
 
 /**  Creates a list of Volumes from the directory tree. */
@@ -261,8 +261,11 @@ VolGen::readDirectory ( const std::string & path )
     ::closedir(dirp);
 
     if ( _debug ) {
-        std::cout << "Total File sizes: " << (bytotal/1024) << " Kbytes. Blocks: "
-            << (bltotal/1024) << std::endl;
+        std::cout << "Total File sizes: " 
+                  << std::setprecision(3) << (bytotal/1024) 
+                  << " Kbytes. Blocks: " 
+                  << std::setprecision(3) << (bltotal/1024) 
+                  << std::endl;
     }
 
     return result;
@@ -303,7 +306,8 @@ VolGen::createVolumes ( const std::string & path )
     DirTree::Node * node = _dtree.find(path);
 
     if ( node == NULL ) {
-        std::cout << "volgen::createVolumes() Error finding path: " << path << std::endl;
+        std::cout << "volgen::createVolumes() Error finding the root path: " 
+            << path << std::endl;
         return;
     }
 
@@ -405,15 +409,15 @@ VolGen::displayVolumes ( bool show )
     {
         Volume * vol = (Volume*) *vIter;
         std::cout << vol->name << " : " << vol->size << " Mb : " 
-            << vol->vtotal << "% : " << (vol->items.size() + 1) 
+            << vol->vtotal << "% : " << vol->items.size() 
             << " item(s)" << std::endl;
         
         if ( show ) {
             ItemList::iterator iIter;
-            for ( iIter = v->items.begin(); iIter != v->items.end(); ++iIter ) 
+            for ( iIter = vol->items.begin(); iIter != vol->items.end(); ++iIter ) 
             {
                 std::cout << "   " << iIter->name << " : " << iIter->size << " Mb : "
-                    << iIter->vratio << " %" << std::endl;
+                    << std::setprecision(3) << iIter->vratio << " %" << std::endl;
             }
         }
     }

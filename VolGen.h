@@ -25,13 +25,13 @@ using namespace tcanetpp;
 namespace volgen {
 
 
-#define VOLGEN_VERSION "v0.205"
-#define VOLGEN_LICENSE "Copyright (c)2010-2013 Timothy C. Arland <tcarland@gmail.com>"
+#define VOLGEN_VERSION       "v0.206"
+#define VOLGEN_LICENSE       "Copyright (c)2010-2013 Timothy C. Arland <tcarland@gmail.com>"
 
-#define VOLGEN_ARCHIVEDIR       ".volgen"
-#define VOLGEN_DEFAULT_NAME     "Volume_"
-#define VOLGEN_VOLUME_MB        4400
-#define VOLGEN_BLOCKSIZE        512
+#define VOLGEN_ARCHIVEDIR    ".volgen"
+#define VOLGEN_DEFAULT_NAME  "Volume_"
+#define VOLGEN_VOLUME_MB     4400
+#define VOLGEN_BLOCKSIZE     512
 
 
 typedef tcanetpp::HeirarchicalStringTree<DirNode>  DirTree;
@@ -62,6 +62,18 @@ struct Volume {
           size(0), 
           vtotal(0.0) 
     {}
+
+    bool operator< ( const Volume & v ) const 
+    {
+        return(name < v.name);
+    }
+
+    bool operator== ( const Volume & v ) const
+    {
+        if ( name.compare(v.name) == 0 )
+            return true;
+        return false;
+    }
 };
 
 typedef std::list<Volume*> VolumeList;
