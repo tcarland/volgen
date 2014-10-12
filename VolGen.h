@@ -1,11 +1,11 @@
 /**
-  *  An app for generating volumes of a given size of a file system directory.
+  *  An application for generating volumes of a given size based
+  *  on a file system directory.
   *  Intended for performing backups to various media types, 
   *  such as DVD-RW, CD-RW, USB Flash, etc.
   *
-  * @file include/VolGen.h 
+  * @file   VolGen.h 
   * @author tcarland@gmail.com
-  * 
  **/
 #ifndef _VOLGEN_VOLGEN_H_
 #define _VOLGEN_VOLGEN_H_
@@ -25,7 +25,7 @@ using namespace tcanetpp;
 namespace volgen {
 
 
-#define VOLGEN_VERSION       "v0.206"
+#define VOLGEN_VERSION       "v0.211"
 #define VOLGEN_LICENSE       "Copyright (c)2010-2013 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"

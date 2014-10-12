@@ -1,5 +1,5 @@
 /**
-  * @file src/VolGen.cpp
+  * @file   VolGen.cpp
   * @author tcarland@gmail.com
  **/
 #define _VOLGEN_VOLGEN_CPP_
