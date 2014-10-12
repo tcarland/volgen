@@ -15,7 +15,7 @@ package volgen::voldiff::main;
 use strict;
 
 
-my $VERSION  = "0.831";
+my $VERSION  = "0.832";
 my $AUTHOR   = 'tcarland@gmail.com';
 my $voldir   = ".volgen";
 my $prefix   = shift;
@@ -27,10 +27,21 @@ sub usage()
 }
 
 
+sub version()
+{
+    print "voldiff.pl v$VERSION by $AUTHOR\n"
+}
+
+
 INIT:
 {
     if ( $prefix =~ m/^-h/ ) {
         usage();
+        exit(0);
+    }
+    
+    if ( $prefix =~ m/^-V/ ) {
+        version();
         exit(0);
     }
 
@@ -45,18 +56,6 @@ INIT:
 
 MAIN: 
 {
-    if ( $prefix =~ m/^-h/ ) {
-        usage();
-        exit(0);
-    }
-
-    if ( not -e "$voldir" ) {
-        print "Error: volgen directory '$voldir' not found!\n";
-        print "Have you run 'volgen' first?\n\n";
-        usage();
-        exit(0);
-    }
-
     my $match1 = `ls . | grep -i "$prefix"`;
     my $match2 = `ls .volgen/ | grep "Volume_"`;
 
@@ -69,7 +68,7 @@ MAIN:
     my @missing;
 
     print "\n voldiff for prefix '$prefix'\n\n";
-    print " Disc Size Results: \n";
+    print " Disc Size  |   Results: \n";
     print " ----------------- \n";
 
     foreach my $vol (@vols) {
@@ -86,7 +85,7 @@ MAIN:
         $size =~ s/^(\d+).+$/$1/;
         $tsz += $size;
 
-        print " $vol $size Mb\n";
+        print " $vol  |   $size Mb\n";
         $sizes{$vol} = $size;
     }
 
