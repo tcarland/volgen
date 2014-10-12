@@ -35,7 +35,7 @@ INIT:
     }
 
     if ( not -e "$voldir" ) {
-        print "Error: volgen directory '$voldir' not found!\n"
+        print "Error: volgen directory '$voldir' not found!\n";
         print "Have you run 'volgen' first?\n\n";
         usage();
         exit(0);
@@ -51,7 +51,7 @@ MAIN:
     }
 
     if ( not -e "$voldir" ) {
-        print "Error: volgen directory '$voldir' not found!\n"
+        print "Error: volgen directory '$voldir' not found!\n";
         print "Have you run 'volgen' first?\n\n";
         usage();
         exit(0);
