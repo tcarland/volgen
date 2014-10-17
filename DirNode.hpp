@@ -14,7 +14,6 @@ namespace volgen {
 
 class DirNode;
 
-
 #define VOLGEN_NODESIZE   4096
 
 
