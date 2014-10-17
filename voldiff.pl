@@ -7,19 +7,21 @@
 #  the current working directory to display untracked or volumed items.
 #
 #  @file    voldiff.pl
-#  @author  tcarland@gmail.com
+#  @author  Timothy C. Arland <tcarland@gmail.com>
 #-----------------------------------------------------------------------
-
 package volgen::voldiff::main;
 
 use strict;
 
+
+#-----------------------------------------------------------------------
 
 my $VERSION  = "0.832";
 my $AUTHOR   = 'tcarland@gmail.com';
 my $voldir   = ".volgen";
 my $prefix   = shift;
 
+#-----------------------------------------------------------------------
 
 sub usage()
 {
@@ -32,6 +34,7 @@ sub version()
     print "voldiff.pl v$VERSION by $AUTHOR\n"
 }
 
+#-----------------------------------------------------------------------
 
 INIT:
 {
@@ -53,6 +56,7 @@ INIT:
     }
 }
 
+#-----------------------------------------------------------------------
 
 MAIN: 
 {
@@ -121,6 +125,7 @@ MAIN:
     exit 0;
 } # MAIN
 
+#-----------------------------------------------------------------------
 
 1;
 
