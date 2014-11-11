@@ -8,6 +8,9 @@
 #
 #  @file    voldiff.pl
 #  @author  Timothy C. Arland <tcarland@gmail.com>
+#
+#  Copyright (c) 2009,2010 Timothy C. Arland <tcarland@gmail.com>
+#
 #-----------------------------------------------------------------------
 package volgen::voldiff::main;
 
@@ -16,7 +19,7 @@ use strict;
 
 #-----------------------------------------------------------------------
 
-my $VERSION  = "0.832";
+my $VERSION  = "0.301";
 my $AUTHOR   = 'tcarland@gmail.com';
 my $voldir   = ".volgen";
 my $prefix   = shift;

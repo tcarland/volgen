@@ -6,7 +6,7 @@
 #  -R RockRidge extensions
 #
 
-VERSION="0.20"
+VERSION="0.301"
 AUTHOR="tcarland@gmail.com"
 
 VERBOSE=0
@@ -123,13 +123,6 @@ if [ -e $target ] && [ $LOOP -eq 0 ]; then
         exit 0
     fi
 fi
-    #echo "Target exists, overwrite (y/n)?"
-    #select yn in "Yes" "No"; do
-        #case $yn in
-            #Yes) echo "  Overwriting $target"; break;;
-            #No ) echo "  You said $yn, stopping.."; exit;;
-        #esac
-    #done
 
 if [ $DRYRUN -eq 1 ]; then
     echo "  DRYRUN enabled"

@@ -1,6 +1,9 @@
 /**
   * @file   VolGen.cpp
   * @author tcarland@gmail.com
+  *
+  * Copyright (c) 2009,2010 Timothy C. Arland <tcarland@gmail.com>
+  *
  **/
 #define _VOLGEN_VOLGEN_CPP_
 

@@ -1,7 +1,9 @@
 /**
   * @file    DirNode.hpp 
   * @author  Timothy C. Arland <tcarland@gmail.com>
-  * 
+  *
+  * Copyright (c) 2009,2010 Timothy C. Arland <tcarland@gmail.com>
+  *
  **/
 #ifndef _VOLGEN_DIRNODE_HPP_
 #define _VOLGEN_DIRNODE_HPP_

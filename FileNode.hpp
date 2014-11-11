@@ -1,6 +1,9 @@
 /**
   * @file   FileNode.hpp 
   * @author tcarland@gmail.com
+  *
+  * Copyright (c) 2009,2010 Timothy C. Arland <tcarland@gmail.com>
+  *
   * 
  **/
 #ifndef _VOLGEN_FILENODE_HPP_
@@ -23,7 +26,7 @@ typedef std::set<FileNode>  AssetSet;
 
 
 /**  Represents a filesytem filenode and its associated file with 
-  *  filesize and blocksize attributes
+  *  filesize and blocksize attributes. 
  **/
 class FileNode {
 
