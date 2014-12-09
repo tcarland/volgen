@@ -337,7 +337,6 @@ VolGen::createVolumes ( const std::string & path )
             continue;
     
         if ( vrt > 95.0 ) {
-            //_vols.push_back(v);
             std::string dirstr = "/" + nIter->second->getAbsoluteName();
             this->createVolumes(dirstr);
             continue;
@@ -345,7 +344,7 @@ VolGen::createVolumes ( const std::string & path )
 
         vol = _curv;
 
-        VolumeItem item;
+        VolumeItem  item;
         item.fullname = "/" + nIter->second->getAbsoluteName();
         item.name     = nIter->second->getName();
         item.size     = dmb;
