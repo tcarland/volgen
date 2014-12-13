@@ -6,29 +6,31 @@
 #  -R RockRidge extensions
 #
 
-VERSION="0.301"
+VERSION="0.311"
 AUTHOR="tcarland@gmail.com"
 
 VERBOSE=0
 DRYRUN=0
 RESET=0
 LOOP=0
-MKISO="mkisofs -pad -f"
+MKISO="mkisofs -pad -f -J"
 target=
 path="./"
+
 
 usage()
 {
     echo ""
     echo "Usage: $0 [options] path/to/convert/toiso/"
     echo "    options:"
-    echo "      -h|--help    = Display usage information"
-    echo "      -n|--dry-run = Show command but don't execute"
-    echo "      -L|--loop    = mount target iso on loop device"
-    echo "      -o|--object  or "
-    echo "      -t|--target  = output .iso target path and name "
-    echo "      -v|--verbose = Enable verbose output in mkisofs"
-    echo "      -V|--version = Display version information"
+    echo "      -h|--help        = Display usage information"
+    echo "      -n|--dry-run     = Show command but don't execute"
+    echo "      -L|--loop        = mount target iso on loop device"
+    echo "      -o|--object      = output to target .iso image"
+    echo "      -t|--target      = same --object"
+    echo "      -r|--reset-perms = RockRidge with reset file permissions"
+    echo "      -v|--verbose     = Enable verbose output in mkisofs"
+    echo "      -V|--version     = Display version information"
     echo ""
 }
 
@@ -36,6 +38,7 @@ version()
 {
     echo "$0 v$VERSION ($AUTHOR)"
 }
+
 
 ask()
 {
@@ -66,6 +69,10 @@ ask()
         esac
     done
 }
+
+#----------------
+# MAIN
+#----------------
 
 
 # process command arguments
@@ -107,6 +114,7 @@ while [ $# -gt 0 ]; do
     shift
 done
 
+
 if [ -z "$target" ]; then
     echo "No iso target defined!"
     usage
@@ -133,27 +141,33 @@ fi
 
 echo "Using iso target: '$target'"
 
+
 cmd="$MKISO"
 
 if [ $VERBOSE -eq 1 ]; then
     cmd="$cmd -v"
 fi
 
+# RockRidge protocol
 if [ $RESET -eq 1 ]; then
     cmd="$cmd -r"
 else
     cmd="$cmd -R"
 fi
 
-cmd="$cmd -J -o $target -publisher $AUTHOR $path"
+
+cmd="$cmd -o $target -publisher $AUTHOR $path"
+
 
 if [ $DRYRUN -eq 1 ]; then
     echo ""
+
     if [ ${LOOP} -eq 1 ]; then
         echo "mount -t iso9660 -o ro,loop=/dev/loop0 $target /mnt/cdrom"
     else
         echo "$cmd"
     fi
+
     echo ""
 else
     if [ $LOOP -eq 1 ]; then
@@ -164,8 +178,5 @@ else
 fi
 
 exit 0
-
-
-
 
 
