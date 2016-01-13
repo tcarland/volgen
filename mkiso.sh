@@ -4,6 +4,7 @@
 #  -f follow symlinks
 #  -J Joliet extentions
 #  -R RockRidge extensions
+#  -r RockRidge with reset perms
 #
 
 VERSION="0.311"

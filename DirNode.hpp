@@ -22,7 +22,7 @@ class DirNode;
 /**  DirNode represents a filesystem directory node within 
   *  our custom DirectoryTree (the DirTree object). Each 
   *  instance holds a list of 'FileNode' assets for this 
-  *  directory level only as the tree maintains the directory 
+  *  directory level only as our tree maintains the directory
   *  structure.
  **/
 class DirNode {
@@ -34,7 +34,7 @@ class DirNode {
     uint64_t getFileSize() const
     {
         uint64_t tsz = 0;
-        AssetSet::const_iterator aIter;
+        FileNodeSet::const_iterator aIter;
         for ( aIter = files.begin(); aIter != files.end(); ++aIter ) {
             if ( ! aIter->symlink )
                 tsz += aIter->getFileSize();
@@ -45,7 +45,7 @@ class DirNode {
     uint64_t getDiskSize() const
     {
         uint64_t tsz = 0;
-        AssetSet::const_iterator aIter;
+        FileNodeSet::const_iterator aIter;
         for ( aIter = files.begin(); aIter != files.end(); ++aIter ) {
             if ( ! aIter->symlink )
                 tsz += aIter->getDiskSize();
@@ -66,8 +66,8 @@ class DirNode {
 
   public:
 
-    AssetSet  files;
-    uint32_t  dnodesz;
+    FileNodeSet  files;
+    uint32_t     dnodesz;
 
 };
 

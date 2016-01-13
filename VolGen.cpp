@@ -361,8 +361,8 @@ VolGen::createVolumes ( const std::string & path )
         vol->items.push_back(item);
     }
 
-    AssetSet & assets = node->getValue().files;
-    AssetSet::iterator  fIter;
+    FileNodeSet & assets = node->getValue().files;
+    FileNodeSet::iterator  fIter;
 
     for ( fIter = assets.begin(); fIter != assets.end(); ++fIter )
     {

@@ -22,7 +22,7 @@ namespace volgen {
 
 
 class FileNode;
-typedef std::set<FileNode>  AssetSet;
+typedef std::set<FileNode>  FileNodeSet;
 
 
 /**  Represents a filesytem filenode and its associated file with 
