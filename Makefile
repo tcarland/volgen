@@ -9,10 +9,10 @@ OPT_FLAGS =     -g
 endif
 
 LIBS =  	-lrt
-INCLUDES =      -I.
+INCLUDES =      -Iinclude
 
 BIN =		volgen
-OBJS =		VolGen.o volgen_main.o
+OBJS =		src/VolGen.o src/volgen_main.o
 
 ALL_OBJS =      $(OBJS)
 ALL_BINS =      $(BIN)
@@ -30,7 +30,7 @@ volgen: $(OBJS)
 
 clean:
 	$(RM) $(OBJS) \
-	*.d *.D *.bd 
+	*.d *.D *.bd src/*d src/*.D src/*.bd
 
 distclean: clean
 	$(RM) $(BIN)
