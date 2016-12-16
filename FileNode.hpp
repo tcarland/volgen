@@ -25,7 +25,7 @@ class FileNode;
 typedef std::set<FileNode>  FileNodeSet;
 
 
-/**  Represents a filesytem filenode and its associated file with 
+/**  Represents a filesytem filenode; the associated file with 
   *  filesize and blocksize attributes. 
  **/
 class FileNode {

@@ -22,8 +22,8 @@ class DirNode;
 /**  DirNode represents a filesystem directory node within 
   *  our custom DirectoryTree (the DirTree object). Each 
   *  instance holds a list of 'FileNode' assets for this 
-  *  directory level only as our tree maintains the directory
-  *  structure.
+  *  directory level only, as our tree maintains the directory
+  *  structure of DirNodes.
  **/
 class DirNode {
 
@@ -53,6 +53,8 @@ class DirNode {
         tsz += dnodesz;
         return tsz;
     }
+    uint64_t getPhySize() const { return this->getDiskSize(); }
+
 
     uint32_t getFileCount() const
     {
