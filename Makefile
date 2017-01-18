@@ -1,10 +1,10 @@
-TOPDIR = ../../tnms
+TOPDIR = ..
 
 NEED_SOCKET = 1
 NEED_PTHREADS = 1
 NEED_TCANETPP = 1
 
-ifdef SYSENG_DEBUG
+ifdef TCAMAKE_DEBUG
 OPT_FLAGS =     -g
 endif
 
