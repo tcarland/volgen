@@ -7,6 +7,7 @@ Intended for performing backups to various media types such as DVD-RW, CD-RW, US
   Requires the 'tcanetpp' library and tcamake to build.
 
 
- The app essentially builds a metadata type tree of the volumes in '.volgen' directory (by default). This contains soft links to the files that make up the volume. Since .volgen would contain primarily just links, it is cheap to keep around. You can see the difference between the current volumes since last run by using the voldiff tool.
+ The app essentially builds a metadata type tree of volumes in '.volgen' of the current directory (by default). The .volgen volumes contain soft links to the files that make up the volume. Since .volgen would contain primarily just links, it is relatively cheap to keep around or recreate. Note, that the difference between the current state versus when volgen was last rand can be determined using the voldiff script.
+
 
 
