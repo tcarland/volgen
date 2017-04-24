@@ -29,7 +29,7 @@ namespace volgen {
 
 
 #define VOLGEN_VERSION       "v0.302"
-#define VOLGEN_LICENSE       "Copyright (c)2010-2013 Timothy C. Arland <tcarland@gmail.com>"
+#define VOLGEN_LICENSE       "Copyright (c)2009-2013 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"
 #define VOLGEN_DEFAULT_NAME  "Volume_"
@@ -130,11 +130,9 @@ class VolGen {
     size_t              _blksz;
     bool                _debug;
 
-
 };
 
 
 }  // namespace
-
 
 #endif  // _VOLGEN_VOLGEN_H_

@@ -216,8 +216,10 @@ VolGen::readDirectory ( const std::string & path )
                     break;
                 }
             }
+
             if ( _debug ) 
-                std::cout << " d> '" << dname << "/' : " << blks << " (" << size << ")" << std::endl;
+                std::cout << " d> '" << dname << "/' : " << blks << " (" << size << ")" 
+                          << std::endl;
 
             this->readDirectory(dname);
 
@@ -299,6 +301,7 @@ VolGen::displayTree()
         
     return;
 }
+
 
 /**  Method for recursively walking the directory and file structure
   *  for building the Volume list.
@@ -399,6 +402,7 @@ VolGen::createVolumes ( const std::string & path )
     return;
 }
 
+
 /**  Displays the created Volume list */
 void 
 VolGen::displayVolumes ( bool show )
@@ -427,6 +431,7 @@ VolGen::displayVolumes ( bool show )
 
     return;
 }
+
 
 /**  Generates the volume linkage in the given path */
 void 
@@ -478,6 +483,7 @@ VolGen::generateVolumes ( const std::string & volpath )
     return;
 }
 
+
 /** Determines the size of the give directory */
 uint64_t 
 VolGen::getDirSize ( const std::string & path )
@@ -492,6 +498,7 @@ VolGen::getDirSize ( const std::string & path )
     return dirsize.dsize;
 }
 
+
 /**  Sets a fixed size of all volumes to be generated. */
 void
 VolGen::setVolumeSize ( size_t volsz )
@@ -499,12 +506,14 @@ VolGen::setVolumeSize ( size_t volsz )
     _volsz = volsz;
 }
 
+
 /**  Returns the configured volume size */
 size_t
 VolGen::getVolumeSize() const
 {
     return _volsz;
 }
+
 
 /**  Sets the configured disk block size used for 
   *  calculating dir/file actual bytes consumed.
@@ -515,12 +524,14 @@ VolGen::setBlockSize ( size_t blksz )
     _blksz = blksz;
 }
 
+
 /**  Returns the configured block size. */
 size_t
 VolGen::getBlockSize() const
 {
     return _blksz;
 }
+
 
 void
 VolGen::setDebug ( bool d )
@@ -537,6 +548,7 @@ VolGen::GetVolumeName ( size_t volsz )
     vol << "Volume_" << std::setfill('0') << std::setw(2) << (volsz + 1);
     return vol.str();
 }
+
 
 /** Static function for determining the current working directory */
 std::string 
