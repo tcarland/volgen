@@ -253,7 +253,7 @@ VolGen::readDirectory ( const std::string & path )
             if ( _debug ) 
             {
                 if ( link )
-                    std:: cout << " l> '";
+                    std::cout << " l> '";
                 else
                     std::cout << " f> '";
                 std::cout << fn.getFileName() << "' : " << fn.fileSize 
