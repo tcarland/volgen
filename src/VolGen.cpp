@@ -162,7 +162,7 @@ VolGen::readDirectory ( const std::string & path )
     uint64_t       blks    = 0;
     uint64_t       bytotal = 0;
     uint64_t       bltotal = 4096;
-    bool           link    = false;
+    bool           isLink  = false;
     bool           result  = true;
 
     DirTree::Node * node = NULL;
@@ -175,8 +175,8 @@ VolGen::readDirectory ( const std::string & path )
 
     while ( (dire = ::readdir(dirp)) != NULL )
     {
-        link  = false;
-        dname = dire->d_name;
+        isLink = false;
+        dname  = dire->d_name;
 
         if ( dname.compare(".") == 0 || dname.compare("..") == 0 )
             continue;
@@ -190,7 +190,7 @@ VolGen::readDirectory ( const std::string & path )
 
         if ( S_ISLNK(lsb.st_mode) ) {
             bltotal += (lsb.st_blocks * _blksz);
-            link = true;
+            isLink = true;
             if ( _debug ) 
                 std::cout << " l> " << dname << std::endl;
         }
@@ -200,7 +200,7 @@ VolGen::readDirectory ( const std::string & path )
             continue;
         }
 
-        if ( ! link && S_ISDIR(fsb.st_mode) ) 
+        if ( ! isLink && S_ISDIR(fsb.st_mode) ) 
         {
             size = fsb.st_size;
             blks = (fsb.st_blocks * _blksz);
@@ -244,7 +244,7 @@ VolGen::readDirectory ( const std::string & path )
             }
 
             FileNode  fn(dname, size, blks);
-            fn.symlink  = link;
+            fn.symlink  = isLink;
             DirNode & d = node->getValue();
 
             d.files.insert(fn);
@@ -254,7 +254,7 @@ VolGen::readDirectory ( const std::string & path )
             
             if ( _debug ) 
             {
-                if ( link )
+                if ( isLink )
                     std::cout << " l> '";
                 else
                     std::cout << " f> '";
