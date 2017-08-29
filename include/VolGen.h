@@ -1,5 +1,5 @@
 /**
-  *  An application for generating volumes of a given size based
+  *  An application for generating volumes of a given size, based
   *  on a file system directory.
   *  Intended for performing backups to various media types 
   *  such as DVD-RW, CD-RW, USB Flash, etc.
@@ -28,7 +28,7 @@ using namespace tcanetpp;
 namespace volgen {
 
 
-#define VOLGEN_VERSION       "v0.302"
+#define VOLGEN_VERSION       "v0.303"
 #define VOLGEN_LICENSE       "Copyright (c)2009-2013 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"
