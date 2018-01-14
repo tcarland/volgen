@@ -78,7 +78,8 @@ MAIN:
     print " Disc Size  |   Results: \n";
     print " ----------------- \n";
 
-    foreach my $vol (@vols) {
+    foreach my $vol (@vols) 
+    {
         my $shws = `ls -1 .volgen/"$vol"/`;
         chomp $shws;
         my @foo  = split('\n', $shws);
@@ -101,7 +102,6 @@ MAIN:
         push(@missing, $d) if not exists $saved{$d};
     }
 
-
     my $num_mmw   = scalar @mmw;
     my $num_saved = scalar keys %saved;
     my $sz        = scalar @missing;
@@ -110,7 +110,6 @@ MAIN:
     print " total size: $tsz Mb\n\n";
     print " total items $num_mmw \n";
     print " saved items $num_saved\n\n";
-
     print " missing items $sz\n";
     print " ----------------- \n";
 
@@ -131,6 +130,3 @@ MAIN:
 #-----------------------------------------------------------------------
 
 1;
-
-
-

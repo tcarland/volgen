@@ -30,7 +30,7 @@ namespace volgen {
 struct DirSizePredicate {
     uint64_t  fsize, dsize, dcount, fcount;
 
-    DirSizePredicate() 
+    explicit DirSizePredicate() 
       : fsize(0), dsize(0), dcount(0), fcount(0) 
     {}
 
@@ -414,17 +414,14 @@ VolGen::displayVolumes ( bool show )
     for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
     {
         Volume * vol = (Volume*) *vIter;
-        std::cout << vol->name << " : " << vol->size << " Mb : " 
-            << vol->vtotal << "% : " << vol->items.size() 
-            << " item(s)" << std::endl;
-        
+        std::cout << vol->name   << " : "  << vol->size << " Mb : " 
+                  << vol->vtotal << "% : " << vol->items.size() 
+                  << " item(s)"  << std::endl;
         if ( show ) {
             ItemList::iterator iIter;
             for ( iIter = vol->items.begin(); iIter != vol->items.end(); ++iIter ) 
-            {
                 std::cout << "   " << iIter->name << " : " << iIter->size << " Mb : "
-                    << std::setprecision(3) << iIter->vratio << " %" << std::endl;
-            }
+                          << std::setprecision(3) << iIter->vratio << " %" << std::endl;
         }
     }
     std::cout << std::endl;
@@ -438,7 +435,6 @@ void
 VolGen::generateVolumes ( const std::string & volpath )
 {
     VolumeList::iterator vIter;
-
     std::string newpath;
 
     for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
@@ -471,10 +467,9 @@ VolGen::generateVolumes ( const std::string & volpath )
 
             int r = ::symlink(item.fullname.c_str(), slink.c_str());
 
-            if ( r != 0 ) {
+            if ( r != 0 )
                 std::cout << "Error in symlink: " << slink 
-                    << " : " << strerror(errno) << std::endl;
-            }
+                          << " : " << strerror(errno) << std::endl;
         }
     }
 
@@ -489,6 +484,7 @@ uint64_t
 VolGen::getDirSize ( const std::string & path )
 {
     DirTree::Node * node = _dtree.find(path);
+
     if ( node == NULL ) 
         return 0;
 
