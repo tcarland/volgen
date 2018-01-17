@@ -52,10 +52,10 @@ class FileNode {
     }
 
     const
-    std::string&  getFileName()  const  { return fileName; }
-    uint64_t      getFileSize()  const  { return fileSize; }
-    uint64_t      getDiskSize()  const  { return blockSize; }
-    uint64_t      getBlockSize() const  { return blockSize; }
+    std::string&  getFileName()  const { return fileName; }
+    uint64_t      getFileSize()  const { return fileSize; }
+    uint64_t      getDiskSize()  const { return blockSize; }
+    uint64_t      getBlockSize() const { return blockSize; }
 
 
     static std::string GetNameOnly ( const std::string & fname )

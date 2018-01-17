@@ -44,7 +44,7 @@ void usage()
 void version()
 {
     std::cout << "volgen " << VOLGEN_VERSION << std::endl
-        << VOLGEN_LICENSE << std::endl;
+              << VOLGEN_LICENSE << std::endl;
     exit(0);
 }
 

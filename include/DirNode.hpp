@@ -54,7 +54,8 @@ class DirNode {
         return tsz;
     }
 
-    uint64_t getPhySize() const { return this->getDiskSize(); }
+    uint64_t getPhySize() const   { return this->getDiskSize(); }
+    uint64_t getBlockSize() const { return this->getDiskSize(); }
 
     uint32_t getFileCount() const
     {
