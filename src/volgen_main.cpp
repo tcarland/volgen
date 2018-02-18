@@ -1,10 +1,10 @@
 /**
   *  An application for generating volumes of a given size based
   *  on a file system directory.
-  *  Intended for performing backups to various media types 
+  *  Intended for performing backups to various media types
   *  such as DVD-RW, CD-RW, USB Flash, etc.
   *
-  * @file   volgen_main.cpp 
+  * @file   volgen_main.cpp
   * @author tcarland@gmail.com
   *
   * Copyright (c) 2009,2010 Timothy C. Arland <tcarland@gmail.com>
@@ -27,12 +27,12 @@ using namespace tcanetpp;
 void usage()
 {
     std::cout << "Usage: volgen  [-a:dDhLv:V]... <directory>" << std::endl
-              << "   -a <dir> : Set archive directory. (default is " 
+              << "   -a <dir> : Set archive directory. (default is "
               << VOLGEN_ARCHIVEDIR << ")." << std::endl
               << "   -d       : Enable debug output and file statistics." << std::endl
-              << "   -D       : Detailed volume layout. Default is a brief list." << std::endl 
+              << "   -D       : Detailed volume layout. Default is a brief list." << std::endl
               << "   -L       : List volume layout only, do not generate links." << std::endl
-              << "   -v <mb>  : Set volume size in Mb (default is " 
+              << "   -v <mb>  : Set volume size in Mb (default is "
               << VOLGEN_VOLUME_MB << ")." << std::endl
               << "   -h       : Display usage info and exit." << std::endl
               << "   -V       : Display version info and exit." << std::endl
@@ -59,9 +59,9 @@ int main ( int argc, char **argv )
     bool         dogen  = true;
     bool         show   = false;
 
-    while ( (optChar = getopt(argc, argv, "a:dDhLv:V")) != EOF ) 
+    while ( (optChar = getopt(argc, argv, "a:dDhLv:V")) != EOF )
     {
-        switch ( optChar ) 
+        switch ( optChar )
         {
             case 'a':
                 dirstr = strdup(optarg);
@@ -98,13 +98,13 @@ int main ( int argc, char **argv )
     target  = argv[optind];
     int cd  = ::chdir(target.c_str());
 
-    if ( cd < 0 ) 
+    if ( cd < 0 )
     {
         if ( errno == EACCES ) {
             std::cout << "No permission for " << target << std::endl;
             return -1;
         } else {
-            std::cout << "Error with target: " << target << ": " 
+            std::cout << "Error with target: " << target << ": "
                 << std::string(strerror(errno)) << std::endl;
             return -1;
         }
@@ -119,13 +119,13 @@ int main ( int argc, char **argv )
 
     DirTree    tree;
     VolumeList vols;
-    
+
     curdir = VolGen::GetCurrentPath();
-    
-    if ( ! StringUtils::startsWith(voldir, "/") ) {
+
+    if ( ! StringUtils::StartsWith(voldir, "/") ) {
         std::string tmp = voldir;
         voldir = curdir;
-        if ( ! StringUtils::endsWith(voldir, "/") )
+        if ( ! StringUtils::EndsWith(voldir, "/") )
             voldir.append("/");
         voldir.append(tmp);
 
@@ -152,7 +152,7 @@ int main ( int argc, char **argv )
     }
 
     if ( dogen && ::mkdir(voldir.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH) < 0 ) {
-        std::cout << "Error creating volgen archive dir '" << voldir << "' : " 
+        std::cout << "Error creating volgen archive dir '" << voldir << "' : "
             << strerror(errno) << std::endl;
     }
 
@@ -169,6 +169,3 @@ int main ( int argc, char **argv )
 
     return 0;
 }
-
-
-

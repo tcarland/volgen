@@ -30,11 +30,11 @@ namespace volgen {
 struct DirSizePredicate {
     uint64_t  fsize, dsize, dcount, fcount;
 
-    explicit DirSizePredicate() 
-      : fsize(0), dsize(0), dcount(0), fcount(0) 
+    explicit DirSizePredicate()
+      : fsize(0), dsize(0), dcount(0), fcount(0)
     {}
 
-    void operator() ( const DirTree::Node * node ) 
+    void operator() ( const DirTree::Node * node )
     {
         fsize  += node->getValue().getFileSize();
         dsize  += node->getValue().getDiskSize();
@@ -50,23 +50,23 @@ struct PrintTreePredicate {
     std::string   disppath;
 
 
-    explicit PrintTreePredicate ( DirTree           * dtree, 
+    explicit PrintTreePredicate ( DirTree           * dtree,
                                   const std::string & rootPath,
                                   const std::string & dispPath = "" )
         : tree(dtree),
           rootpath(rootPath),
           disppath(dispPath)
     {
-        std::cout << std::endl << rootpath << ":" << std::endl << std::endl; 
+        std::cout << std::endl << rootpath << ":" << std::endl << std::endl;
         std::cout << std::setw(20) << std::setiosflags(std::ios_base::left) << "Size (Kb) "
                   << std::setw(18) << "Size (Mb)"
                   << std::setw(8)  << "D/F"
-                  << " Directory" 
+                  << " Directory"
                   << std::endl;
         std::cout << std::setw(20) << std::setiosflags(std::ios_base::left) << "----------"
                   << std::setw(18) << "--------"
                   << std::setw(8)  << "------"
-                  << "----------------------" 
+                  << "----------------------"
                   << std::endl;
     }
 
@@ -79,15 +79,16 @@ struct PrintTreePredicate {
         std::string name = "/";
         name.append(node->getAbsoluteName());
 
-        if ( StringUtils::startsWith(name, rootpath) )
+        if ( StringUtils::StartsWith(name, rootpath) )
             name = name.substr(rootpath.length());
-        if ( StringUtils::startsWith(name, "/") )
+        if ( StringUtils::StartsWith(name, "/") )
             name = name.substr(1);
         if ( name.empty() )
             name = disppath;
 
         std::ostringstream cnts;
-        cnts << node->getChildren().size() << "/" << node->getValue().getFileCount();
+        cnts << node->getChildren().size() << "/"
+             << node->getValue().getFileCount();
 
         float sz  = ((float)dirSz.dsize / 1024);
         float dmb = ((float)dirSz.dsize / (1024 * 1024));
@@ -105,7 +106,7 @@ struct PrintTreePredicate {
             std::cout << ((int)dmb);
 
         std::cout << std::setw(8)  << cnts.str()
-                  << name 
+                  << name
                   << std::endl;
     }
 };
@@ -133,7 +134,7 @@ VolGen::~VolGen()
 }
 
 
-/**  Reads and parses the given root directory building a tree of the 
+/**  Reads and parses the given root directory building a tree of the
   *  underlying directory structure.
  **/
 bool
@@ -167,7 +168,7 @@ VolGen::readDirectory ( const std::string & path )
 
     DirTree::Node * node = NULL;
 
-    if ( _debug ) 
+    if ( _debug )
         std::cout << "VolGen::readDirectory() " << path << std::endl;
 
     if ( (dirp = ::opendir(path.c_str())) == NULL )
@@ -191,7 +192,7 @@ VolGen::readDirectory ( const std::string & path )
         if ( S_ISLNK(lsb.st_mode) ) {
             bltotal += (lsb.st_blocks * _blksz);
             isLink = true;
-            if ( _debug ) 
+            if ( _debug )
                 std::cout << " l> " << dname << std::endl;
         }
 
@@ -200,13 +201,13 @@ VolGen::readDirectory ( const std::string & path )
             continue;
         }
 
-        if ( ! isLink && S_ISDIR(fsb.st_mode) ) 
+        if ( ! isLink && S_ISDIR(fsb.st_mode) )
         {
             size = fsb.st_size;
             blks = (fsb.st_blocks * _blksz);
             node = _dtree.find(dname);
 
-            if ( node == NULL ) 
+            if ( node == NULL )
             {
                 DirTree::BranchNodeList  branches;
                 node = _dtree.insert(dname, std::inserter(branches, branches.begin()));
@@ -217,15 +218,15 @@ VolGen::readDirectory ( const std::string & path )
                 }
             }
 
-            if ( _debug ) 
-                std::cout << " d> '" << dname << "/' : " << blks << " (" << size << ")" 
+            if ( _debug )
+                std::cout << " d> '" << dname << "/' : " << blks << " (" << size << ")"
                           << std::endl;
 
             this->readDirectory(dname);
 
             continue;
-        } 
-        else 
+        }
+        else
         {
             size = fsb.st_size;
             blks = (fsb.st_blocks * _blksz);
@@ -251,14 +252,14 @@ VolGen::readDirectory ( const std::string & path )
 
             bytotal += size;
             bltotal += blks;
-            
-            if ( _debug ) 
+
+            if ( _debug )
             {
                 if ( isLink )
                     std::cout << " l> '";
                 else
                     std::cout << " f> '";
-                std::cout << fn.getFileName() << "' : " << fn.fileSize 
+                std::cout << fn.getFileName() << "' : " << fn.fileSize
                     << " blocksize: " << blks << std::endl;
             }
         }
@@ -266,10 +267,10 @@ VolGen::readDirectory ( const std::string & path )
     ::closedir(dirp);
 
     if ( _debug ) {
-        std::cout << "Total File sizes: " 
-                  << std::setprecision(3) << (bytotal/1024) 
-                  << " Kbytes. Blocks: " 
-                  << std::setprecision(3) << (bltotal/1024) 
+        std::cout << "Total File sizes: "
+                  << std::setprecision(3) << (bytotal/1024)
+                  << " Kbytes. Blocks: "
+                  << std::setprecision(3) << (bltotal/1024)
                   << std::endl;
     }
 
@@ -282,15 +283,15 @@ void
 VolGen::displayTree()
 {
     PrintTreePredicate show(&_dtree, _path);
-    
-    if ( _path.empty() ) 
+
+    if ( _path.empty() )
     {
         DirTree::NodeMap & nodemap = _dtree.getRoots();
         DirTree::NodeMapIter nIter;
         for ( nIter = nodemap.begin(); nIter != nodemap.end(); ++nIter )
             _dtree.depthFirstTraversal(nIter->second, show);
-    } 
-    else 
+    }
+    else
     {
         DirTree::Node * node = _dtree.find(_path);
         if ( node == NULL )
@@ -298,7 +299,7 @@ VolGen::displayTree()
         _dtree.depthFirstTraversal(node, show);
     }
     std::cout << std::endl;
-        
+
     return;
 }
 
@@ -312,7 +313,7 @@ VolGen::createVolumes ( const std::string & path )
     DirTree::Node * node = _dtree.find(path);
 
     if ( node == NULL ) {
-        std::cout << "volgen::createVolumes() Error finding the root path: " 
+        std::cout << "volgen::createVolumes() Error finding the root path: "
             << path << std::endl;
         return;
     }
@@ -338,7 +339,7 @@ VolGen::createVolumes ( const std::string & path )
 
         if ( dirsize.fsize == 0 )
             continue;
-    
+
         if ( vrt > 95.0 ) {
             std::string dirstr = "/" + nIter->second->getAbsoluteName();
             this->createVolumes(dirstr);
@@ -376,7 +377,7 @@ VolGen::createVolumes ( const std::string & path )
         float vrt = (fmb / _volsz) * 100.0;
 
         if ( vrt > 95.0 ) {
-            std::cout << "WARNING: File is larger than volume size, skipping file: " 
+            std::cout << "WARNING: File is larger than volume size, skipping file: "
                 << file.getFileName() << std::endl;
             continue;
         }
@@ -404,22 +405,22 @@ VolGen::createVolumes ( const std::string & path )
 
 
 /**  Displays the created Volume list */
-void 
+void
 VolGen::displayVolumes ( bool show )
 {
     VolumeList::iterator vIter;
-    
+
     std::cout << "Number of volumes = " << _vols.size() << std::endl;
 
     for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
     {
         Volume * vol = (Volume*) *vIter;
-        std::cout << vol->name   << " : "  << vol->size << " Mb : " 
-                  << vol->vtotal << "% : " << vol->items.size() 
+        std::cout << vol->name   << " : "  << vol->size << " Mb : "
+                  << vol->vtotal << "% : " << vol->items.size()
                   << " item(s)"  << std::endl;
         if ( show ) {
             ItemList::iterator iIter;
-            for ( iIter = vol->items.begin(); iIter != vol->items.end(); ++iIter ) 
+            for ( iIter = vol->items.begin(); iIter != vol->items.end(); ++iIter )
                 std::cout << "   " << iIter->name << " : " << iIter->size << " Mb : "
                           << std::setprecision(3) << iIter->vratio << " %" << std::endl;
         }
@@ -431,7 +432,7 @@ VolGen::displayVolumes ( bool show )
 
 
 /**  Generates the volume linkage in the given path */
-void 
+void
 VolGen::generateVolumes ( const std::string & volpath )
 {
     VolumeList::iterator vIter;
@@ -445,21 +446,21 @@ VolGen::generateVolumes ( const std::string & volpath )
         newpath.append("/");
 
         struct stat sb;
-        if ( ::stat(newpath.c_str(), &sb) != 0 ) 
+        if ( ::stat(newpath.c_str(), &sb) != 0 )
         {
             if ( errno == EACCES ) {
                 std::cout << "Error in volgen path!" << std::endl;
                 return;
             }
             if ( ::mkdir(newpath.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH) < 0 ) {
-                std::cout << "Error in mkdir '" << newpath << "' : " 
+                std::cout << "Error in mkdir '" << newpath << "' : "
                     << strerror(errno) << std::endl;
                 return;
             }
         }
 
         ItemList::iterator iIter;
-        for ( iIter = vol->items.begin(); iIter != vol->items.end(); ++iIter ) 
+        for ( iIter = vol->items.begin(); iIter != vol->items.end(); ++iIter )
         {
             VolumeItem & item = *iIter;
             std::string slink = newpath;
@@ -468,7 +469,7 @@ VolGen::generateVolumes ( const std::string & volpath )
             int r = ::symlink(item.fullname.c_str(), slink.c_str());
 
             if ( r != 0 )
-                std::cout << "Error in symlink: " << slink 
+                std::cout << "Error in symlink: " << slink
                           << " : " << strerror(errno) << std::endl;
         }
     }
@@ -480,12 +481,12 @@ VolGen::generateVolumes ( const std::string & volpath )
 
 
 /** Determines the size of the give directory */
-uint64_t 
+uint64_t
 VolGen::getDirSize ( const std::string & path )
 {
     DirTree::Node * node = _dtree.find(path);
 
-    if ( node == NULL ) 
+    if ( node == NULL )
         return 0;
 
     DirSizePredicate  dirsize;
@@ -511,7 +512,7 @@ VolGen::getVolumeSize() const
 }
 
 
-/**  Sets the configured disk block size used for 
+/**  Sets the configured disk block size used for
   *  calculating dir/file actual bytes consumed.
  **/
 void
@@ -537,7 +538,7 @@ VolGen::setDebug ( bool d )
 
 
 /** Creates a string of the next volume name in the list */
-std::string 
+std::string
 VolGen::GetVolumeName ( size_t volsz )
 {
     std::ostringstream  vol;
@@ -547,7 +548,7 @@ VolGen::GetVolumeName ( size_t volsz )
 
 
 /** Static function for determining the current working directory */
-std::string 
+std::string
 VolGen::GetCurrentPath()
 {
     std::string  path;

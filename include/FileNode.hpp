@@ -1,10 +1,10 @@
 /**
-  * @file   FileNode.hpp 
+  * @file   FileNode.hpp
   * @author tcarland@gmail.com
   *
   * Copyright (c) 2009,2010 Timothy C. Arland <tcarland@gmail.com>
   *
-  * 
+  *
  **/
 #ifndef _VOLGEN_FILENODE_HPP_
 #define _VOLGEN_FILENODE_HPP_
@@ -26,7 +26,7 @@ typedef std::set<FileNode>  FileNodeSet;
 
 
 /**  Represents a filesytem filenode; the associated filename with
-  *  filesize and blocksize attributes. 
+  *  filesize and blocksize attributes.
  **/
 class FileNode {
 
@@ -62,20 +62,20 @@ class FileNode {
     {
         std::string name;
         int indx  = -1;
-        
-        indx = StringUtils::lastIndexOf(fname, "/");
+
+        indx = StringUtils::LastIndexOf(fname, "/");
         name = fname.substr(indx+1);
 
         return name;
     }
- 
+
   public:
 
     std::string   fileName;
     uint64_t      fileSize;
     uint64_t      blockSize;
     bool          symlink;
-    
+
 };
 
 
