@@ -1,10 +1,10 @@
 /**
   *  An application for generating volumes of a given size, based
   *  on a file system directory.
-  *  Intended for performing backups to various media types 
+  *  Intended for performing backups to various media types
   *  such as DVD-RW, CD-RW, USB Flash, etc.
   *
-  * @file   VolGen.h 
+  * @file   VolGen.h
   * @author tcarland@gmail.com
   *
   * Copyright (c) 2009,2010 Timothy C. Arland <tcarland@gmail.com>
@@ -26,7 +26,7 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v0.310"
+#define VOLGEN_VERSION       "v0.311"
 #define VOLGEN_LICENSE       "Copyright (c)2009-2013 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"
@@ -58,13 +58,13 @@ struct Volume {
 
     Volume() : size(0), vtotal(0.0) {}
 
-    Volume ( const std::string & vname ) 
+    Volume ( const std::string & vname )
         : name(vname),
-          size(0), 
-          vtotal(0.0) 
+          size(0),
+          vtotal(0.0)
     {}
 
-    bool operator< ( const Volume & v ) const 
+    bool operator< ( const Volume & v ) const
     {
         return(name < v.name);
     }
