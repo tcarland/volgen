@@ -2,7 +2,7 @@
   * @file   FileNode.hpp
   * @author tcarland@gmail.com
   *
-  * Copyright (c) 2009,2010 Timothy C. Arland <tcarland@gmail.com>
+  * Copyright (c) 2009-2012 Timothy C. Arland <tcarland@gmail.com>
   *
   *
  **/
