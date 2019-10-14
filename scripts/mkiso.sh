@@ -6,8 +6,13 @@
 #  -R RockRidge extensions
 #  -r RockRidge with reset perms
 #
-
-VERSION="0.311"
+#  @file    mkiso.sh
+#  @author  Timothy C. Arland <tcarland@gmail.com>
+#
+#  Copyright (c) 2009-2012 Timothy C. Arland <tcarland@gmail.com>
+#
+PNAME=${0##*\/}
+VERSION="0.321"
 AUTHOR="tcarland@gmail.com"
 
 VERBOSE=0
@@ -22,7 +27,7 @@ path="./"
 usage()
 {
     echo ""
-    echo "Usage: $0 [options] path/to/convert/toiso/"
+    echo "Usage: $PNAME [options] [path/to/archive]"
     echo "    options:"
     echo "      -h|--help        = Display usage information"
     echo "      -n|--dry-run     = Show command but don't execute"
@@ -37,7 +42,7 @@ usage()
 
 version()
 {
-    echo "$0 v$VERSION ($AUTHOR)"
+    echo "$PNAME v$VERSION ($AUTHOR)"
 }
 
 
@@ -75,8 +80,6 @@ ask()
 # MAIN
 #----------------
 
-
-# process command arguments
 while [ $# -gt 0 ]; do
     case "$1" in
         -h|--help)
