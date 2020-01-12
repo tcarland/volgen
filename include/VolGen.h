@@ -7,7 +7,7 @@
   * @file   VolGen.h
   * @author tcarland@gmail.com
   *
-  * Copyright (c) 2009-2012 Timothy C. Arland <tcarland@gmail.com>
+  * Copyright (c) 2009-2020 Timothy C. Arland <tcarland@gmail.com>
   *
  **/
 #ifndef _VOLGEN_VOLGEN_H_
@@ -26,8 +26,8 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v0.321"
-#define VOLGEN_LICENSE       "Copyright (c)2009-2013 Timothy C. Arland <tcarland@gmail.com>"
+#define VOLGEN_VERSION       "v0.322"
+#define VOLGEN_LICENSE       "Copyright (c)2009-2020 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"
 #define VOLGEN_DEFAULT_NAME  "Volume_"

@@ -1,8 +1,21 @@
 /**
-  * @file    DirNode.hpp 
+  * @file    DirNode.hpp
   * @author  Timothy C. Arland <tcarland@gmail.com>
   *
-  * Copyright (c) 2009-2012 Timothy C. Arland <tcarland@gmail.com>
+  * Copyright (c) 2009-2012,2020 Timothy C. Arland <tcarland@gmail.com>
+  *
+  * Volgen is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * Volgen is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with Volgen.  If not, see <https://www.gnu.org/licenses/>.
   *
  **/
 #ifndef _VOLGEN_DIRNODE_HPP_
@@ -19,9 +32,9 @@ class DirNode;
 #define VOLGEN_NODESIZE   4096
 
 
-/**  DirNode represents a filesystem directory node within 
-  *  our custom DirectoryTree (the DirTree object). Each 
-  *  instance holds a list of 'FileNode' assets for this 
+/**  DirNode represents a filesystem directory node within
+  *  our custom DirectoryTree (the DirTree object). Each
+  *  instance holds a list of 'FileNode' assets for this
   *  directory level only, as our tree maintains the directory
   *  structure of DirNodes.
  **/
@@ -79,4 +92,3 @@ class DirNode {
 
 
 #endif  // _VOLGEN_DIRNODE_HPP_
-
