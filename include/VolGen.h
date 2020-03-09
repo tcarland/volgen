@@ -26,7 +26,7 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v0.322"
+#define VOLGEN_VERSION       "v0.4.0"
 #define VOLGEN_LICENSE       "Copyright (c)2009-2020 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"

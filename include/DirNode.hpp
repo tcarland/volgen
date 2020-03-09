@@ -87,8 +87,6 @@ class DirNode {
 
 };
 
-
 }  // namespace
-
 
 #endif  // _VOLGEN_DIRNODE_HPP_

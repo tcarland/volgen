@@ -19,7 +19,7 @@ use strict;
 
 #-----------------------------------------------------------------------
 
-my $VERSION  = "0.322";
+my $VERSION  = "0.4.1";
 my $AUTHOR   = 'tcarland@gmail.com';
 my $voldir   = ".volgen";
 my $prefix   = shift;

@@ -90,8 +90,6 @@ class FileNode {
 
 };
 
-
 }  // namespace
-
 
 #endif  // _VOLGEN_FILENODE_HPP_

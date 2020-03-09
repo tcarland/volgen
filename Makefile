@@ -36,4 +36,6 @@ distclean: clean
 	$(RM) $(BIN)
 
 install:
-
+ifdef TCAMAKE_PREFIX
+	( cp volgen $TCAMAKE_PREFIX/bin/ )
+endif

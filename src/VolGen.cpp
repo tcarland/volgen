@@ -574,7 +574,6 @@ VolGen::GetCurrentPath()
     return path;
 }
 
-
 }  // namespace
 
 // _VOLGEN_VOLGEN_CPP_
