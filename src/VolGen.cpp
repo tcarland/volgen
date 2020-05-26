@@ -491,7 +491,7 @@ VolGen::generateVolumes ( const std::string & volpath )
 }
 
 
-/** Determines the size of the give directory */
+/** Determines the size of the a directory */
 uint64_t
 VolGen::getDirSize ( const std::string & path )
 {

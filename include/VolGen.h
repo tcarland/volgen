@@ -1,13 +1,27 @@
-/**
-  *  An application for generating volumes of a given size, based
+/**  An application for generating volumes of a given size, based
   *  on a file system directory.
-  *  Intended for performing backups to various media types
-  *  such as DVD-RW, CD-RW, USB Flash, etc.
+  *  Intended for turning a very large set of binary assets into a 
+  *  set of more manageable sized group of assets for use in 
+  *  transferring via network or as backups to alternate media types
+  *  such as DVD-RW, CD-RW, USB Flash, external storage, etc.
   *
   * @file   VolGen.h
   * @author tcarland@gmail.com
   *
   * Copyright (c) 2009-2020 Timothy C. Arland <tcarland@gmail.com>
+  *
+  * Volgen is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * Volgen is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with Volgen.  If not, see <https://www.gnu.org/licenses/>.
   *
  **/
 #ifndef _VOLGEN_VOLGEN_H_
@@ -26,7 +40,7 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v0.4.0"
+#define VOLGEN_VERSION       "v0.4.1"
 #define VOLGEN_LICENSE       "Copyright (c)2009-2020 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"
@@ -129,7 +143,6 @@ class VolGen {
     bool                _debug;
 
 };
-
 
 }  // namespace
 
