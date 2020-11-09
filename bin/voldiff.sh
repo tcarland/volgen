@@ -1,13 +1,12 @@
 #!/bin/bash
 #
-# 
+#  voldiff.sh 
+#
 PNAME=${0##\/.*}
 AUTHOR="tcarland@gmail.com"
 
-
 voldir=".volgen"
 prefix="$1"
-
 
 
 if [ ! -d $voldir ]; then

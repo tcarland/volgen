@@ -38,13 +38,11 @@ using namespace tcanetpp;
 void usage()
 {
     std::cout << "Usage: volgen  [-a:dDhLv:V]... <directory>" << std::endl
-              << "   -a <dir> : Set archive directory. (default is "
-              << VOLGEN_ARCHIVEDIR << ")." << std::endl
+              << "   -a <dir> : Set archive directory. (default is " << VOLGEN_ARCHIVEDIR << ")." << std::endl
               << "   -d       : Enable debug output and file statistics." << std::endl
               << "   -D       : Detailed volume layout. Default is a brief list." << std::endl
               << "   -L       : List volume layout only, do not generate links." << std::endl
-              << "   -v <mb>  : Set volume size in Mb (default is "
-              << VOLGEN_VOLUME_MB << ")." << std::endl
+              << "   -v <mb>  : Set volume size in Mb (default is " << VOLGEN_VOLUME_MB << ")." << std::endl
               << "   -h       : Display usage info and exit." << std::endl
               << "   -V       : Display version info and exit." << std::endl
               << std::endl;

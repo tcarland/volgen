@@ -18,11 +18,10 @@ ALL_OBJS =      $(OBJS)
 ALL_BINS =      $(BIN)
 
 
+include $(TOPDIR)/tcamake/tcamake_include
+
+
 all: volgen
-
-
-include $(TOPDIR)/tcamake/project_defs
-
 
 volgen: $(OBJS)
 	$(make-cxxbin-rule)
