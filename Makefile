@@ -19,12 +19,10 @@ ALL_BINS =  $(BIN)
 
 include $(TOPDIR)/tcamake/tcamake_include
 
-
 all: volgen
 
 volgen: $(OBJS)
 	$(make-cxxbin-rule)
-
 
 clean:
 	$(RM) $(OBJS) \
@@ -35,5 +33,7 @@ distclean: clean
 
 install:
 ifdef TCAMAKE_PREFIX
-	( cp volgen $TCAMAKE_PREFIX/bin/ )
+	( cp volgen $(TCAMAKE_PREFIX)/bin/ )
+	( cp bin/mkiso.sh $(TCAMAKE_PREFIX)/bin )
+	( cp bin/voldiff.sh $(TCAMAKE_PREFIX)/bin )
 endif
