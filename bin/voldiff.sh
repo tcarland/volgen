@@ -10,18 +10,17 @@ prefix="$1"
 
 
 if [ ! -d $voldir ]; then
-    echo "Error: volgen metadata directory not found."
-    echo " Run volgen first?"
+    echo "$PNAME Error: volgen directory '$voldir' not found."
+    echo " Run volgen first to create the metadata directory."
     exit 1
 fi
 
-mmw=$( ls . | grep -i "$prefix" )
 
+mmw=$( ls . | grep -i "$prefix" )
 vols=$( ls .volgen/ | grep "Volume_" )
 
 declare -a saved
 declare -a sizes
-
 
 for vol in "$volds"; do
     items=$( ls -1 ".volgen/${vol}/" )

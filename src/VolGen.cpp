@@ -2,7 +2,7 @@
   * @file   VolGen.cpp
   * @author tcarland@gmail.com
   *
-  * Copyright (c) 2009-2020 Timothy C. Arland <tcarland@gmail.com>
+  * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
   * Volgen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -80,7 +80,6 @@ struct PrintTreePredicate {
                   << "----------------------"
                   << std::endl;
     }
-
 
     void operator() ( DirTree::Node * node )
     {

@@ -12,7 +12,7 @@
 #  Copyright (c) 2009-2012 Timothy C. Arland <tcarland@gmail.com>
 #
 PNAME=${0##*\/}
-VERSION="0.4.1"
+VERSION="v12.04"
 AUTHOR="tcarland@gmail.com"
 
 VERBOSE=0

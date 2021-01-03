@@ -5,18 +5,17 @@ NEED_PTHREADS = 1
 NEED_TCANETPP = 1
 
 ifdef TCAMAKE_DEBUG
-OPT_FLAGS =     -g
+OPT_FLAGS = -g
 endif
 
-LIBS =  	-lrt
-INCLUDES =      -Iinclude
+LIBS =      -lrt
+INCLUDES =  -Iinclude
 
-BIN =		volgen
-OBJS =		src/VolGen.o src/volgen_main.o
+BIN =  	    volgen
+OBJS =      src/VolGen.o src/volgen_main.o
 
-ALL_OBJS =      $(OBJS)
-ALL_BINS =      $(BIN)
-
+ALL_OBJS =  $(OBJS)
+ALL_BINS =  $(BIN)
 
 include $(TOPDIR)/tcamake/tcamake_include
 
