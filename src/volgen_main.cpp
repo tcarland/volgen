@@ -99,6 +99,7 @@ int main ( int argc, char **argv )
 
     if ( argc < 2 )
         usage();
+
     if ( optind == argc ) {
         std::cout << "no target defined" << std::endl;
         usage();
