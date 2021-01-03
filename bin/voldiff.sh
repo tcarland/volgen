@@ -1,12 +1,46 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 #  voldiff.sh 
 #
 PNAME=${0##\/.*}
 AUTHOR="tcarland@gmail.com"
+VERSION="v20.12"
 
 voldir=".volgen"
-prefix="$1"
+prefix=
+
+# -----------------------------------
+
+usage()
+{
+    printf "Usage: $PNAME <prefix_match> \n"
+    printf "  Where 'prefix_match' is the directory/file prefix name to match"
+}
+
+version()
+{
+    printf "$PNAME $VERSION"
+}
+
+# -----------------------------------
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        'help'|-h|--help)
+            usage
+            exit 0
+            ;;
+        'version'|-V|--version)
+            version
+            exit 0
+            ;;
+        *)
+            prefix="$1"
+            shift $#
+            ;;
+    esac
+    shift
+done
 
 
 if [ ! -d $voldir ]; then

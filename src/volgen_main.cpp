@@ -26,7 +26,7 @@
 
 #include <cstdlib>
 #include <iostream>
-
+#include <getopt.h>
 
 #include "VolGen.h"
 using namespace volgen;
@@ -38,14 +38,14 @@ using namespace tcanetpp;
 void usage()
 {
     std::cout << "Usage: volgen  [-a:dDhLv:V]... <directory>" << std::endl
-              << "   -a <dir> : Set archive directory. (default is " << VOLGEN_ARCHIVEDIR << ")." << std::endl
-              << "   -d       : Enable debug output and file statistics." << std::endl
-              << "   -D       : Detailed volume layout. Default is a brief list." << std::endl
-              << "   -L       : List volume layout only, do not generate links." << std::endl
-              << "   -v <mb>  : Set volume size in Mb (default is " << VOLGEN_VOLUME_MB << ")." << std::endl
-              << "   -h       : Display usage info and exit." << std::endl
-              << "   -V       : Display version info and exit." << std::endl
-              << std::endl;
+        << "  -a | --archive <dir> : Set archive directory. (default is " << VOLGEN_ARCHIVEDIR << ")." << std::endl
+        << "  -d | --debug         : Enable debug output and file statistics." << std::endl
+        << "  -h | --help          : Display usage info and exit." << std::endl
+        << "  -D | --detail        : Detailed volume layout. Default is a brief list." << std::endl
+        << "  -L | --list          : List volume layout only, do not generate links." << std::endl
+        << "  -s | --size  <mb>    : Set volume size in Mb (default is " << VOLGEN_VOLUME_MB << ")." << std::endl
+        << "  -V | --version       : Display version info and exit." << std::endl
+        << std::endl;
     exit(0);
 }
 
@@ -68,10 +68,19 @@ int main ( int argc, char **argv )
     bool         dogen  = true;
     bool         show   = false;
 
-    while ( (optChar = getopt(argc, argv, "a:dDhLv:V")) != EOF )
+    static struct option l_opts[] = { {"archive", required_argument, 0, 'a'},
+                                      {"debug",   no_argument, 0, 'd'},
+                                      {"help",    no_argument, 0, 'h'},
+                                      {"detail",  no_argument, 0, 'D'}, 
+                                      {"list",    no_argument, 0, 'L'}, 
+                                      {"size", required_argument, 0, 's'},
+                                      {"version", no_argument, 0, 'V'}
+                                    };
+    int optindx = 0;
+
+    while ( (optChar = ::getopt_long(argc, argv, "a:dDhLv:V", l_opts, &optindx)) != EOF )
     {
-        switch ( optChar )
-        {
+        switch ( optChar ) {
             case 'a':
                 dirstr = strdup(optarg);
                 break;
@@ -88,7 +97,7 @@ int main ( int argc, char **argv )
             case 'L':
                 dogen = false;
                 break;
-            case 'v':
+            case 's':
                 volsz = ::atoi(optarg);
                 break;
             case 'V':
