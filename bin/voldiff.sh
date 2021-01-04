@@ -52,52 +52,55 @@ fi
 
 mmw=$( ls . | grep -i "$prefix" )
 vols=$( ls .volgen/ | grep "Volume_" )
+tsz=0
 
-declare -a saved
-declare -a sizes
+declare -A saved
+declare -A sizes
 
-for vol in "$volds"; do
+for vol in $vols; do
     items=$( ls -1 ".volgen/${vol}/" )
 
     for f in $items; do
-        saved[$f] = $vol
+        saved[$f]="$vol"
     done
 
-    size=$( du -L -m -s .volgen/${vol} )
-    tsz=((tsz + size))
+    size=$( du -L -m -c .volgen/${vol} | grep total 2>/dev/null | awk '{ print $1 }' )
+    tsz=$((tsz + size))
 
-    printf " $vol  |  $size Mb\n"
-    sizes[$vol] = $size
+    printf " $vol  =  $size Mb\n"
+    sizes[$vol]=$size
 done 
+
+missing=()
 
 for dir in $mmw; do 
     if [ ! -d $dir ]; then 
         continue
     fi
-    #if not exists $saved[$dir]; then 
-        #push missing
-    #fi
+    if [ ! -v saved[$dir] ]; then
+        missing+=("$dir")
+    fi
 done
 
-ncur=${#mmw}
-nsvd=${#saved}
-nmis=${#missing}
+ntotal=${#mmw}
+nsaved=${#saved[@]}
+nmissed=${#missing[@]}
 
 printf " ----------------- \n";
-printf " total size: $tsz Mb\n\n";
-printf " total items $num_mmw \n";
-printf " saved items $num_saved\n\n";
-printf " missing items $sz\n";
+printf " Total size:   : $tsz Mb \n\n";
+printf " Total items   : $ntotal \n";
+printf " Saved items   : $nsaved \n\n";
+printf " Missing items : $nmissed \n";
 printf " ----------------- \n";
 
-for m in $missing; do 
-    size=$( du -L -m -s ./$m/ )
-
-    printf " $m  [ $size Mb ]"
-    $tsz=(( tsz + $size ))
+tsz=0
+for m in ${missing[@]}; do 
+    size=$( du -L -m -c ./$m/ | grep total 2>/dev/null | awk '{ print $1 }' )
+    printf " $m  [ $size Mb ] \n"
+    tsz=$(( $tsz + $size ))
 done
 
 printf " ----------------- \n";
-printf " total size: $tsz Mb\n";
+printf " Total size missing: $tsz Mb\n";
 
 exit 0
