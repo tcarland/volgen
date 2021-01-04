@@ -49,6 +49,12 @@ if [ ! -d $voldir ]; then
     exit 1
 fi
 
+if [ -z "$prefix" ]; then
+    echo "$PNAME Error: match prefix not provided."
+    usage
+    exit 1
+fi
+
 
 mmw=$( ls . | grep -i "$prefix" )
 vols=$( ls .volgen/ | grep "Volume_" )
@@ -56,6 +62,7 @@ tsz=0
 
 declare -A saved
 declare -A sizes
+declare -a missing
 
 for vol in $vols; do
     items=$( ls -1 ".volgen/${vol}/" )

@@ -110,7 +110,7 @@ int main ( int argc, char **argv )
         usage();
 
     if ( optind == argc ) {
-        std::cout << "no target defined" << std::endl;
+        std::cout << "volgen: No target defined" << std::endl;
         usage();
     }
 
@@ -120,10 +120,10 @@ int main ( int argc, char **argv )
     if ( cd < 0 )
     {
         if ( errno == EACCES ) {
-            std::cout << "No permission for " << target << std::endl;
+            std::cout << "volgen: No permission for " << target << std::endl;
             return -1;
         } else {
-            std::cout << "Error with target: " << target << ": "
+            std::cout << "volgen: Error with target: " << target << ": "
                 << std::string(strerror(errno)) << std::endl;
             return -1;
         }
@@ -144,18 +144,19 @@ int main ( int argc, char **argv )
     if ( ! StringUtils::StartsWith(voldir, "/") ) {
         std::string tmp = voldir;
         voldir = curdir;
+
         if ( ! StringUtils::EndsWith(voldir, "/") )
             voldir.append("/");
         voldir.append(tmp);
 
-        std::cout << "Archive dir set to " << voldir << std::endl;
+        std::cout << "volgen: Archive dir set to " << voldir << std::endl;
     }
 
     if ( FileUtils::IsDirectory(voldir) && dogen ) {
-        std::cout << "Error: directory already exists. Aborting..." << std::endl;
+        std::cout << "volgen Error: directory already exists. Aborting..." << std::endl;
         return -1;
     } else if ( FileUtils::IsReadable(voldir) && dogen ) {
-        std::cout << "Error: non-directory '" << voldir << "' already exists. Aborting..."
+        std::cout << "volgen Error: non-directory '" << voldir << "' already exists. Aborting..."
             << std::endl;
         return -1;
     }
@@ -166,12 +167,12 @@ int main ( int argc, char **argv )
     vgen.setDebug(debug);
 
     if ( ! vgen.read() ) {
-        std::cout << "Fatal error reading directory" << std::endl;
+        std::cout << "volgen: Fatal error reading directory" << std::endl;
         return -1;
     }
 
     if ( dogen && ::mkdir(voldir.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH) < 0 ) {
-        std::cout << "Error creating volgen archive dir '" << voldir << "' : "
+        std::cout << "volgen: Error creating volgen archive dir '" << voldir << "' : "
             << strerror(errno) << std::endl;
     }
 
@@ -182,9 +183,9 @@ int main ( int argc, char **argv )
     if ( dogen )
         vgen.generateVolumes(voldir);
     else
-        std::cout << "List only, no volumes generated." << std::endl;
+        std::cout << "volgen: List only, no volumes generated." << std::endl;
 
-    std::cout << "Finished." << std::endl;
+    std::cout << "volgen finished." << std::endl;
 
     return 0;
 }
