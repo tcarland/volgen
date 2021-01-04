@@ -10,7 +10,7 @@
 #  @author  Timothy C. Arland <tcarland@gmail.com>
 #
 PNAME=${0##*\/}
-VERSION="v20.10"
+VERSION="v20.12"
 
 author=
 target=
@@ -116,7 +116,7 @@ while [ $# -gt 0 ]; do
 done
 
 
-if [[ -z "$path" || -z "$target" ]; then
+if [[ -z "$path" || -z "$target" ]]; then
     echo "$PNAME Error: Missing arguments."
     usage
     exit 1
@@ -145,6 +145,20 @@ fi
 
 if [ -n "$loop" ]; then 
     echo " -> Loop Enabled, mounting ISO to $loop"
+
+    if [[ -e $loop && ! -d $loop ]]; then
+        echo "$PNAME Error, mount path already exists and is not a directory!"
+        exit 1
+    fi
+    if [[ ! -e $loop ]]; then
+        ( mkdir $loop )
+        rt=$?
+        if [ $rt -ne 0 ]; then 
+            echo "$PNAME Error creating mount path '$loop'"
+            exit 1
+        fi
+    fi
+fi 
 
 
 echo " -> Using ISO Target of '$target'"
