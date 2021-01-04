@@ -18,7 +18,7 @@ path=
 dryrun=0
 reset=0
 loop=
-ldev=
+loopdev=
 
 MKISOFS=$(which genisoimage 2>/dev/null)
 MKISOARGS="-pad -f -J"
@@ -31,9 +31,9 @@ usage()
     echo "Usage: $PNAME [options] <path>"
     echo "  -a|--author <str> : Set iso image author string"
     echo "  -h|--help         : Show usage info and exit."
-    echo "  -L|--loop <mntpt> : Mount iso target as a loop device."
+    echo "  -L|--loop  <path> : Mount iso target as a loop device."
     echo "  -n|--dryrun       : Shows command only with no execution."
-    echo "  -t|--target <img> : Name of target ISO image."  
+    echo "  -o|--output <img> : Name of target ISO image."  
     echo "  -r|--reset-perms  : Enable RockRidge with reset file permissions."
     echo "  -V|--version      : Show version info and exit."
     echo ""
@@ -43,6 +43,7 @@ version()
 {
     echo "$PNAME $VERSION"
 }
+
 
 ask()
 {
@@ -96,7 +97,7 @@ while [ $# -gt 0 ]; do
             loop="$2"
             shift
             ;;
-        -t|--target)
+        -o|--output)
             target="$2"
             shift
             ;;
@@ -124,17 +125,17 @@ fi
 
 if [ -z "$MKISOFS" ]; then 
     MKISOFS=$(which mkisofs 2>/dev/null)
-    if [ -z "$MKISOFFS" ]; then 
+    if [ -z "$MKISOFS" ]; then 
         echo "$PNAME Error. Neither 'genisoimage' or 'mkisofs' found in PATH."
         exit 2
     fi
 fi 
 
-if [[ -e $target && $loop -eq 0 ]]; then
+if [[ -e $target && -z "$loop" ]]; then
     if ask "Output image exists! Do you want to overwrite?" N; then
         echo "  Overwriting target image '$target'"
     else
-        echo "$PNAME Aborting.."
+        echo "$PNAME Aborting."
         exit 1
     fi
 fi
@@ -148,16 +149,17 @@ if [ -n "$loop" ]; then
 
     if [[ -e $loop && ! -d $loop ]]; then
         echo "$PNAME Error, mount path already exists and is not a directory!"
-        exit 1
+        exit 3
     fi
     if [[ ! -e $loop ]]; then
-        ( mkdir $loop )
+        ( mkdir -p $loop )
         rt=$?
         if [ $rt -ne 0 ]; then 
-            echo "$PNAME Error creating mount path '$loop'"
-            exit 1
+            echo "$PNAME Error creating loopback mount path '$loop'"
+            exit 3
         fi
     fi
+    loopdev=$(losetup -f)
 fi 
 
 
@@ -170,27 +172,23 @@ if [ $reset -eq 1 ]; then
 else 
     cmd="$cmd -R"
 fi
-
+if [ -n "$author" ]; then 
+    cmd="$cmd -publisher '$author'"
+fi
 
 cmd="$cmd -o $target $path"
 
+if [ -n "$loop" ]; then
+    cmd="mount -t iso9660 -o ro,loop=$loopdev $target $loop"
+fi
 
 if [ $dryrun -eq 1 ]; then 
     echo ""
-    if [ -n "$loop" ]; then 
-        echo "mount -t iso9660 -o ro,loop=/dev/loop0 $target /mnt/cdrom"
-    else
-        echo "( $cmd )"
-    fi
-
+    echo "( $cmd )"
     echo ""
 else
-    if [ -n "$loop" ]; then
-        ( mount -t iso9660 -o ro,loop=$ldev $target $mnt )
-    else
-        ( $cmd )
-        rt=$?
-    fi
+    ( $cmd )
+    rt=$?
 fi 
 
 exit $rt
