@@ -60,7 +60,6 @@ struct PrintTreePredicate {
     std::string   rootpath;
     std::string   disppath;
 
-
     explicit PrintTreePredicate ( DirTree           * dtree,
                                   const std::string & rootPath,
                                   const std::string & dispPath = "" )
@@ -136,11 +135,7 @@ VolGen::VolGen ( const std::string & path )
 
 VolGen::~VolGen()
 {
-    VolumeList::iterator vIter;
-
-    for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
-        delete *vIter;
-    _vols.clear();
+    this->reset();
 }
 
 
@@ -150,8 +145,24 @@ VolGen::~VolGen()
 bool
 VolGen::read()
 {
+    this->reset();
     return this->readDirectory(_path);
 }
+
+
+/**  Reset volume set */
+void
+VolGen::reset()
+{
+    VolumeList::iterator vIter;
+
+    for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
+        delete *vIter;
+
+    _vols.clear();
+    _curv = NULL;
+}
+
 
 /**  Creates a list of Volumes from the directory tree. */
 void
@@ -159,6 +170,7 @@ VolGen::createVolumes()
 {
     return this->createVolumes(_path);
 }
+
 
 /**  Used for recursively walking the directory tree */
 bool

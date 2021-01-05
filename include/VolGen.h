@@ -126,6 +126,7 @@ class VolGen {
 
   private:
 
+    void     reset();
     bool     readDirectory ( const std::string & path );
     void     createVolumes ( const std::string & path );
 
