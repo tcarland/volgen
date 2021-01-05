@@ -8,7 +8,7 @@
   * @file   VolGen.h
   * @author tcarland@gmail.com
   *
-  * Copyright (c) 2009-2020 Timothy C. Arland <tcarland@gmail.com>
+  * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
   * Volgen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,6 @@
 #include <inttypes.h>
 #include <sys/types.h>
 
-
 #include "FileNode.hpp"
 #include "DirNode.hpp"
 
@@ -40,8 +39,8 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v0.4.2"
-#define VOLGEN_LICENSE       "Copyright (c)2009-2020 Timothy C. Arland <tcarland@gmail.com>"
+#define VOLGEN_VERSION       "v20.12"
+#define VOLGEN_LICENSE       "Copyright (c)2009-2021 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"
 #define VOLGEN_DEFAULT_NAME  "Volume_"
@@ -126,6 +125,7 @@ class VolGen {
 
   private:
 
+    void     reset();
     bool     readDirectory ( const std::string & path );
     void     createVolumes ( const std::string & path );
 

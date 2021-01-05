@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 #  mkisofs -pad -f -J -R -o .iso
 #  -f follow symlinks
@@ -9,40 +9,39 @@
 #  @file    mkiso.sh
 #  @author  Timothy C. Arland <tcarland@gmail.com>
 #
-#  Copyright (c) 2009-2012 Timothy C. Arland <tcarland@gmail.com>
-#
 PNAME=${0##*\/}
-VERSION="0.4.1"
-AUTHOR="tcarland@gmail.com"
+VERSION="v20.12"
 
-VERBOSE=0
-DRYRUN=0
-RESET=0
-LOOP=0
-MKISO="mkisofs -pad -f -J"
+author=
 target=
-path="./"
+path=
+dryrun=0
+reset=0
+loop=
+loopdev=
 
+MKISOFS=$(which genisoimage 2>/dev/null)
+MKISOARGS="-pad -f -J"
+
+# ---------------------------------------------------------
 
 usage()
 {
     echo ""
-    echo "Usage: $PNAME [options] [path/to/archive]"
-    echo "    options:"
-    echo "      -h|--help        = Display usage information"
-    echo "      -n|--dry-run     = Show command but don't execute"
-    echo "      -L|--loop        = mount target iso on loop device"
-    echo "      -o|--object      = output to target .iso image"
-    echo "      -t|--target      = same --object"
-    echo "      -r|--reset-perms = RockRidge with reset file permissions"
-    echo "      -v|--verbose     = Enable verbose output in mkisofs"
-    echo "      -V|--version     = Display version information"
+    echo "Usage: $PNAME [options] <path>"
+    echo "  -a|--author <str> : Set iso image author string"
+    echo "  -h|--help         : Show usage info and exit."
+    echo "  -L|--loop  <path> : Mount iso target as a loop device."
+    echo "  -n|--dryrun       : Shows command only with no execution."
+    echo "  -o|--output <img> : Name of target ISO image."  
+    echo "  -r|--reset-perms  : Enable RockRidge with reset file permissions."
+    echo "  -V|--version      : Show version info and exit."
     echo ""
 }
 
 version()
 {
-    echo "$PNAME v$VERSION ($AUTHOR)"
+    echo "$PNAME $VERSION"
 }
 
 
@@ -76,39 +75,38 @@ ask()
     done
 }
 
-#----------------
+
+# ---------------------------------------------------------
 # MAIN
-#----------------
+rt=0
 
 while [ $# -gt 0 ]; do
     case "$1" in
-        -h|--help)
-            usage
-            exit 0
-            ;;
-        -n|--dry-run)
-            DRYRUN=1
-            ;;
-        -L|--loop)
-            LOOP=1
-            ;;
-        -o|--object)
-            target="$2"
+        -a|--author)
+            author="$2"
             shift
             ;;
-        -t|--target)
+        'help'|-h|--help)
+            usage
+            exit $rt
+            ;;
+        -n|--dry-run|--dryrun)
+            dryrun=1
+            ;;
+        -L|--loop)
+            loop="$2"
+            shift
+            ;;
+        -o|--output)
             target="$2"
             shift
             ;;
         -r|--reset-perms)
-            RESET=1
+            reset=1
             ;;
-        -v|--verbose)
-            VERBOSE=1
-            ;;
-        -V|--version)
+        'version'|-V|--version)
             version
-            exit 0
+            exit $rt
             ;;
         *)
             path="$1"
@@ -119,66 +117,78 @@ while [ $# -gt 0 ]; do
 done
 
 
-if [ -z "$target" ]; then
-    echo "No iso target defined!"
+if [[ -z "$path" || -z "$target" ]]; then
+    echo "$PNAME Error: Missing arguments."
     usage
     exit 1
 fi
 
-version
+if [ -z "$MKISOFS" ]; then 
+    MKISOFS=$(which mkisofs 2>/dev/null)
+    if [ -z "$MKISOFS" ]; then 
+        echo "$PNAME Error. Neither 'genisoimage' or 'mkisofs' found in PATH."
+        exit 2
+    fi
+fi 
 
-if [ -e $target ] && [ $LOOP -eq 0 ]; then
-    if ask "Target exists, do you want to overwrite?" N; then
-        echo "  Overwriting $target"
+if [[ -e $target && -z "$loop" ]]; then
+    if ask "Output image exists! Do you want to overwrite?" N; then
+        echo "  Overwriting target image '$target'"
     else
-        echo "  You said no, stopping.."
-        exit 0
+        echo "$PNAME Aborting."
+        exit 1
     fi
 fi
 
-if [ $DRYRUN -eq 1 ]; then
-    echo "  DRYRUN enabled"
-fi
-if [ $LOOP -eq 1 ]; then
-    echo "  Loop enabled, mounting iso using /dev/loop0"
+if [ $dryrun -eq 1 ]; then 
+    echo " -> DRYRUN Enabled."
 fi
 
-echo "Using iso target: '$target'"
+if [ -n "$loop" ]; then 
+    echo " -> Loop Enabled, mounting ISO to $loop"
+
+    if [[ -e $loop && ! -d $loop ]]; then
+        echo "$PNAME Error, mount path already exists and is not a directory!"
+        exit 3
+    fi
+    if [[ ! -e $loop ]]; then
+        ( mkdir -p $loop )
+        rt=$?
+        if [ $rt -ne 0 ]; then 
+            echo "$PNAME Error creating loopback mount path '$loop'"
+            exit 3
+        fi
+    fi
+    loopdev=$(losetup -f)
+fi 
 
 
-cmd="$MKISO"
+echo " -> Using ISO Target of '$target'"
 
-if [ $VERBOSE -eq 1 ]; then
-    cmd="$cmd -v"
-fi
+cmd="$MKISOFS $MKISOARGS"
 
-# RockRidge protocol
-if [ $RESET -eq 1 ]; then
+if [ $reset -eq 1 ]; then 
     cmd="$cmd -r"
-else
+else 
     cmd="$cmd -R"
 fi
-
-
-cmd="$cmd -o $target -publisher $AUTHOR $path"
-
-
-if [ $DRYRUN -eq 1 ]; then
-    echo ""
-
-    if [ ${LOOP} -eq 1 ]; then
-        echo "mount -t iso9660 -o ro,loop=/dev/loop0 $target /mnt/cdrom"
-    else
-        echo "$cmd"
-    fi
-
-    echo ""
-else
-    if [ $LOOP -eq 1 ]; then
-        ( mount -t iso9660 -o ro,loop=/dev/loop0 $target /mnt/cdrom )
-    else
-        ($cmd)
-    fi
+if [ -n "$author" ]; then 
+    cmd="$cmd -publisher '$author'"
 fi
 
-exit 0
+cmd="$cmd -o $target $path"
+
+if [ -n "$loop" ]; then
+    cmd="mount -t iso9660 -o ro,loop=$loopdev $target $loop"
+fi
+
+if [ $dryrun -eq 1 ]; then 
+    echo ""
+    echo "( $cmd )"
+    echo ""
+else
+    ( $cmd )
+    rt=$?
+fi 
+
+exit $rt
