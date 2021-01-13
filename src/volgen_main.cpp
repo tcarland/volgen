@@ -34,7 +34,7 @@ using namespace tcanetpp;
 
 void usage()
 {
-    std::cout << "Usage: volgen  [-a:dDhLv:V]... <directory>" << std::endl
+    std::cout << "Usage: volgen  [-a:dDhLs:V]... <directory>" << std::endl
         << "  -a | --archive <dir> : Set volgen meta directory; default is " << VOLGEN_ARCHIVEDIR << "." << std::endl
         << "  -d | --debug         : Enable debug output and file statistics." << std::endl
         << "  -h | --help          : Display usage info and exit." << std::endl
@@ -75,7 +75,7 @@ int main ( int argc, char **argv )
                                     };
     int optindx = 0;
 
-    while ( (optChar = ::getopt_long(argc, argv, "a:dDhLv:V", l_opts, &optindx)) != EOF )
+    while ( (optChar = ::getopt_long(argc, argv, "a:dDhLs:V", l_opts, &optindx)) != EOF )
     {
         switch ( optChar ) {
             case 'a':

@@ -21,6 +21,7 @@
 
 #include <inttypes.h>
 
+#include <iostream>
 #include <string>
 #include <set>
 
@@ -68,13 +69,38 @@ class FileNode {
     uint64_t      getBlockSize() const { return blockSize; }
 
 
-    static std::string GetNameOnly ( const std::string & fname )
+    static std::string GetNameOnly ( const std::string & fullname )
     {
         std::string name;
         int indx  = -1;
 
-        indx = StringUtils::LastIndexOf(fname, "/");
-        name = fname.substr(indx+1);
+        indx = StringUtils::LastIndexOf(fullname, "/");
+        name = fullname.substr(indx+1);
+
+        return name;
+    }
+
+    static std::string GetPathOnly ( const std::string & name )
+    {
+        std::string path;
+        int indx = -1;
+
+        indx = StringUtils::LastIndexOf(name, "/");
+        if ( indx >0 )
+            path = name.substr(0, indx);
+
+        return path;
+    }
+
+    static std::string GetRelativeName ( const std::string & fullname, 
+                                         const std::string & path )
+    {
+        std::string name, dir = path;
+
+        if ( ! StringUtils::EndsWith(dir, "/") ) 
+            dir.append("/");
+
+        name = fullname.substr(dir.length());
 
         return name;
     }
