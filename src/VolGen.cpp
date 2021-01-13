@@ -1,21 +1,20 @@
 /**
   * @file   VolGen.cpp
-  * @author tcarland@gmail.com
   *
   * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
-  * Volgen is free software: you can redistribute it and/or modify
+  * VolGen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
   *
-  * Volgen is distributed in the hope that it will be useful,
+  * VolGen is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU General Public License for more details.
   *
   * You should have received a copy of the GNU General Public License
-  * along with Volgen.  If not, see <https://www.gnu.org/licenses/>.
+  * along with VolGen.  If not, see <https://www.gnu.org/licenses/>.
   *
  **/
 #define _VOLGEN_VOLGEN_CPP_
@@ -30,6 +29,9 @@ extern "C" {
 #include <iomanip>
 
 #include "VolGen.h"
+
+#include "util/FileUtils.h"
+using namespace tcanetpp;
 
 
 namespace volgen {
@@ -275,21 +277,20 @@ VolGen::readDirectory ( const std::string & path )
             bytotal += size;
             bltotal += blks;
 
-            if ( _debug )
-            {
+            if ( _debug ) {
                 if ( isLink )
-                    std::cout << " l> '";
+                    std::cout << "  l> '";
                 else
-                    std::cout << " f> '";
+                    std::cout << "  f> '";
                 std::cout << fn.getFileName() << "' : " << fn.fileSize
-                    << " blocksize: " << blks << std::endl;
+                          << " blocksize: " << blks << std::endl;
             }
         }
     }
     ::closedir(dirp);
 
     if ( _debug ) {
-        std::cout << "Total File sizes: "
+        std::cout << "Total File sizes <" << path << ">: " << std::endl
                   << std::setprecision(3) << (bytotal/1024)
                   << " Kbytes. Blocks: "
                   << std::setprecision(3) << (bltotal/1024)
@@ -372,9 +373,14 @@ VolGen::createVolumes ( const std::string & path )
 
         VolumeItem  item;
         item.fullname = "/" + nIter->second->getAbsoluteName();
-        item.name     = nIter->second->getName();
+        item.name     = FileNode::GetRelativeName(item.fullname, _path);
         item.size     = dmb;
         item.vratio   = vrt;
+
+        if ( _debug )
+            std::cout << " ->  VolumeItem: (dir)  " << item.name 
+                << " sz: " << item.size 
+                << " vratio: " << item.vratio << std::endl;
 
         if ( (vol->vtotal + vrt) > 95.0 ) {
             vol   = new Volume(VolGen::GetVolumeName(_vols.size()));
@@ -399,17 +405,22 @@ VolGen::createVolumes ( const std::string & path )
         float vrt = (fmb / _volsz) * 100.0;
 
         if ( vrt > 95.0 ) {
-            std::cout << "WARNING: File is larger than volume size, skipping file: "
-                << file.getFileName() << std::endl;
+            std::cout << "VolGen::createVolumes() WARNING: File is larger than volume size, skipping file: "
+                      << file.getFileName() << std::endl;
             continue;
         }
 
         vol = _curv;
 
         item.fullname = file.getFileName();
-        item.name     = FileNode::GetNameOnly(item.fullname);
+        item.name     = FileNode::GetRelativeName(item.fullname, _path);
         item.size     = fmb;
         item.vratio   = vrt;
+
+        if ( _debug )
+            std::cout << " ->  VolumeItem (file): " << item.name 
+                << " sz: " << item.size 
+                << " vratio: " << item.vratio << std::endl;
 
         if ( (vol->vtotal + vrt) > 95.0 ) {
             vol   = new Volume(VolGen::GetVolumeName(_vols.size()));
@@ -455,27 +466,27 @@ VolGen::displayVolumes ( bool show )
 
 /**  Generates the volume linkage in the given path */
 void
-VolGen::generateVolumes ( const std::string & volpath )
+VolGen::generateVolumes ( const std::string & volgenpath )
 {
     VolumeList::iterator vIter;
-    std::string newpath;
+    std::string volpath;
 
     for ( vIter = _vols.begin(); vIter != _vols.end(); ++vIter )
     {
         Volume * vol = *vIter;
-        newpath      = volpath;
-        newpath.append("/").append(vol->name);
-        newpath.append("/");
+        volpath      = volgenpath;
+        volpath.append("/").append(vol->name);
+        volpath.append("/");
 
         struct stat sb;
-        if ( ::stat(newpath.c_str(), &sb) != 0 )
+        if ( ::stat(volpath.c_str(), &sb) != 0 )
         {
             if ( errno == EACCES ) {
                 std::cout << "Error in volgen path!" << std::endl;
                 return;
             }
-            if ( ::mkdir(newpath.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH) < 0 ) {
-                std::cout << "Error in mkdir '" << newpath << "' : "
+            if ( ::mkdir(volpath.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH) < 0 ) {
+                std::cout << "Error in mkdir '" << volpath << "' : "
                     << strerror(errno) << std::endl;
                 return;
             }
@@ -485,8 +496,20 @@ VolGen::generateVolumes ( const std::string & volpath )
         for ( iIter = vol->items.begin(); iIter != vol->items.end(); ++iIter )
         {
             VolumeItem & item = *iIter;
-            std::string slink = newpath;
+            std::string slink = volpath;
+            std::string lpath; // = slink; 
+
             slink.append(item.name);
+            lpath = FileNode::GetPathOnly(item.name);
+
+            if ( ! lpath.empty() ) {
+                std::string subdir = volpath;
+                subdir.append(lpath);
+                if ( ! FileUtils::IsDirectory(subdir) ) {
+                    if ( ::mkdir(subdir.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH) < 0 )
+                        std::cout << "Error in mkdir '" << subdir << "'" << std::endl;
+                }
+            }
 
             int r = ::symlink(item.fullname.c_str(), slink.c_str());
 
@@ -496,7 +519,7 @@ VolGen::generateVolumes ( const std::string & volpath )
         }
     }
 
-    std::cout << "Volumes generated in " << volpath << std::endl;
+    std::cout << "Volumes generated in " << volgenpath << std::endl;
 
     return;
 }

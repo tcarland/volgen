@@ -1,21 +1,19 @@
-/**
-  * @file   FileNode.hpp
-  * @author tcarland@gmail.com
+/** @file FileNode.hpp
   *
   * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
-  * Volgen is free software: you can redistribute it and/or modify
+  * VolGen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
   *
-  * Volgen is distributed in the hope that it will be useful,
+  * VolGen is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU General Public License for more details.
   *
   * You should have received a copy of the GNU General Public License
-  * along with Volgen.  If not, see <https://www.gnu.org/licenses/>.
+  * along with VolGen.  If not, see <https://www.gnu.org/licenses/>.
   *
  **/
 #ifndef _VOLGEN_FILENODE_HPP_
@@ -23,6 +21,7 @@
 
 #include <inttypes.h>
 
+#include <iostream>
 #include <string>
 #include <set>
 
@@ -70,13 +69,38 @@ class FileNode {
     uint64_t      getBlockSize() const { return blockSize; }
 
 
-    static std::string GetNameOnly ( const std::string & fname )
+    static std::string GetNameOnly ( const std::string & fullname )
     {
         std::string name;
         int indx  = -1;
 
-        indx = StringUtils::LastIndexOf(fname, "/");
-        name = fname.substr(indx+1);
+        indx = StringUtils::LastIndexOf(fullname, "/");
+        name = fullname.substr(indx+1);
+
+        return name;
+    }
+
+    static std::string GetPathOnly ( const std::string & name )
+    {
+        std::string path;
+        int indx = -1;
+
+        indx = StringUtils::LastIndexOf(name, "/");
+        if ( indx >0 )
+            path = name.substr(0, indx);
+
+        return path;
+    }
+
+    static std::string GetRelativeName ( const std::string & fullname, 
+                                         const std::string & path )
+    {
+        std::string name, dir = path;
+
+        if ( ! StringUtils::EndsWith(dir, "/") ) 
+            dir.append("/");
+
+        name = fullname.substr(dir.length());
 
         return name;
     }

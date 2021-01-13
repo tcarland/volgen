@@ -1,25 +1,22 @@
-/**
-  *  An application for generating volumes of a given size based
+/** @file volgen_main.cpp
+  * An application for generating volumes of a given size based
   * on a file system directory.  Intended for performing backups
   * to various media types such as DVD-RW, USB Flash, etc.
   *
-  * @file   volgen_main.cpp
-  * @author tcarland@gmail.com
-  *
   * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
-  * Volgen is free software: you can redistribute it and/or modify
+  * VolGen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
   *
-  * Volgen is distributed in the hope that it will be useful,
+  * VolGen is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU General Public License for more details.
   *
   * You should have received a copy of the GNU General Public License
-  * along with Volgen.  If not, see <https://www.gnu.org/licenses/>.
+  * along with VolGen.  If not, see <https://www.gnu.org/licenses/>.
   *
  **/
 #define _VOLGEN_MAIN_CPP_
@@ -37,12 +34,12 @@ using namespace tcanetpp;
 
 void usage()
 {
-    std::cout << "Usage: volgen  [-a:dDhLv:V]... <directory>" << std::endl
-        << "  -a | --archive <dir> : Set archive directory. (default is " << VOLGEN_ARCHIVEDIR << ")." << std::endl
+    std::cout << "Usage: volgen  [-a:dDhLs:V]... <directory>" << std::endl
+        << "  -a | --archive <dir> : Set volgen meta directory; default is " << VOLGEN_ARCHIVEDIR << "." << std::endl
         << "  -d | --debug         : Enable debug output and file statistics." << std::endl
         << "  -h | --help          : Display usage info and exit." << std::endl
         << "  -D | --detail        : Detailed volume layout. Default is a brief list." << std::endl
-        << "  -L | --list          : List volume layout only, do not generate links." << std::endl
+        << "  -L | --list          : List volume layout only, do not generate metalinks." << std::endl
         << "  -s | --size  <mb>    : Set volume size in Mb (default is " << VOLGEN_VOLUME_MB << ")." << std::endl
         << "  -V | --version       : Display version info and exit." << std::endl
         << std::endl;
@@ -78,7 +75,7 @@ int main ( int argc, char **argv )
                                     };
     int optindx = 0;
 
-    while ( (optChar = ::getopt_long(argc, argv, "a:dDhLv:V", l_opts, &optindx)) != EOF )
+    while ( (optChar = ::getopt_long(argc, argv, "a:dDhLs:V", l_opts, &optindx)) != EOF )
     {
         switch ( optChar ) {
             case 'a':

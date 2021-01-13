@@ -1,27 +1,25 @@
-/**  An application for generating volumes of a given size, based
-  *  on a file system directory.
-  *  Intended for turning a very large set of binary assets into a 
-  *  set of more manageable sized group of assets for use in 
-  *  transferring via network or as backups to alternate media types
-  *  such as DVD-RW, CD-RW, USB Flash, external storage, etc.
-  *
-  * @file   VolGen.h
-  * @author tcarland@gmail.com
+/** @file VolGen.h
+  * An application for generating volumes of a given size, based
+  * on a file system directory. Intended for turning a large set 
+  * of binary assets into a set of more manageable sized groups of 
+  * assets for use in transferring; network or as backups to 
+  * alternate media types such as DVD-RW, CD-RW, USB Flash, 
+  * external storage, etc.
   *
   * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
-  * Volgen is free software: you can redistribute it and/or modify
+  * VolGen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
   *
-  * Volgen is distributed in the hope that it will be useful,
+  * VolGen is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU General Public License for more details.
   *
   * You should have received a copy of the GNU General Public License
-  * along with Volgen.  If not, see <https://www.gnu.org/licenses/>.
+  * along with VolGen.  If not, see <https://www.gnu.org/licenses/>.
   *
  **/
 #ifndef _VOLGEN_VOLGEN_H_
@@ -39,7 +37,7 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v20.12"
+#define VOLGEN_VERSION       "v21.01"
 #define VOLGEN_LICENSE       "Copyright (c)2009-2021 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"

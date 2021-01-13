@@ -1,6 +1,4 @@
-/**
-  * @file    DirNode.hpp
-  * @author  Timothy C. Arland <tcarland@gmail.com>
+/** @file DirNode.hpp
   *
   * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
