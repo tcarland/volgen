@@ -48,7 +48,6 @@ namespace volgen {
 
 typedef tcanetpp::HeirarchicalStringTree<DirNode>  DirTree;
 
-
 struct VolumeItem {
     std::string  fullname;
     std::string  name;
@@ -59,7 +58,6 @@ struct VolumeItem {
 };
 
 typedef std::list<VolumeItem> ItemList;
-
 
 struct Volume {
     std::string  name;
@@ -118,7 +116,11 @@ class VolGen {
     void     setDebug ( bool d );
 
     static std::string  GetCurrentPath();
-    static std::string  GetVolumeName ( size_t sz );
+    static std::string  GetVolumeName   ( size_t sz );
+    static std::string  GetFileName     ( const std::string & fqfn );
+    static std::string  GetPathName     ( const std::string & fqfn );
+    static std::string  GetRelativePath ( const std::string & fqfn,
+                                          const std::string & path );
 
 
   private:

@@ -29,6 +29,7 @@
 using namespace volgen;
 
 #include "util/FileUtils.h"
+#include "util/StringUtils.h"
 using namespace tcanetpp;
 
 
@@ -79,7 +80,7 @@ int main ( int argc, char **argv )
     {
         switch ( optChar ) {
             case 'a':
-                dirstr = strdup(optarg);
+                dirstr = ::strdup(optarg);
                 break;
             case 'd':
                 debug = true;

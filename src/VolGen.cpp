@@ -31,6 +31,7 @@ extern "C" {
 #include "VolGen.h"
 
 #include "util/FileUtils.h"
+#include "util/StringUtils.h"
 using namespace tcanetpp;
 
 
@@ -56,6 +57,7 @@ struct DirSizePredicate {
     }
 };
 
+// -------------------------------------------------------------- //
 /** Predicate for displaying the size of a directory tree */
 struct PrintTreePredicate {
     DirTree     * tree;
@@ -140,6 +142,7 @@ VolGen::~VolGen()
     this->reset();
 }
 
+// -------------------------------------------------------------- //
 
 /**  Reads and parses the given root directory building a tree of the
   *  underlying directory structure.
@@ -173,6 +176,7 @@ VolGen::createVolumes()
     return this->createVolumes(_path);
 }
 
+// -------------------------------------------------------------- //
 
 /**  Used for recursively walking the directory tree */
 bool
@@ -242,12 +246,7 @@ VolGen::readDirectory ( const std::string & path )
                 }
             }
 
-            if ( _debug )
-                std::cout << " d> '" << dname << "/' : " << blks << " (" << size << ")"
-                          << std::endl;
-
             this->readDirectory(dname);
-
             continue;
         }
         else
@@ -276,15 +275,6 @@ VolGen::readDirectory ( const std::string & path )
 
             bytotal += size;
             bltotal += blks;
-
-            if ( _debug ) {
-                if ( isLink )
-                    std::cout << "  l> '";
-                else
-                    std::cout << "  f> '";
-                std::cout << fn.getFileName() << "' : " << fn.fileSize
-                          << " blocksize: " << blks << std::endl;
-            }
         }
     }
     ::closedir(dirp);
@@ -300,6 +290,7 @@ VolGen::readDirectory ( const std::string & path )
     return result;
 }
 
+// -------------------------------------------------------------- //
 
 /**  Displays the given directory tree and associated sizes */
 void
@@ -326,6 +317,7 @@ VolGen::displayTree()
     return;
 }
 
+// -------------------------------------------------------------- //
 
 /**  Method for recursively walking the directory and file structure
   *  for building the Volume list.
@@ -336,7 +328,7 @@ VolGen::createVolumes ( const std::string & path )
     DirTree::Node * node = _dtree.find(path);
 
     if ( node == NULL ) {
-        std::cout << "volgen::createVolumes() Error finding the root path: "
+        std::cout << "volgen::createVolumes() Error locating path: "
             << path << std::endl;
         return;
     }
@@ -373,7 +365,7 @@ VolGen::createVolumes ( const std::string & path )
 
         VolumeItem  item;
         item.fullname = "/" + nIter->second->getAbsoluteName();
-        item.name     = FileNode::GetRelativeName(item.fullname, _path);
+        item.name     = VolGen::GetRelativePath(item.fullname, _path);
         item.size     = dmb;
         item.vratio   = vrt;
 
@@ -413,7 +405,7 @@ VolGen::createVolumes ( const std::string & path )
         vol = _curv;
 
         item.fullname = file.getFileName();
-        item.name     = FileNode::GetRelativeName(item.fullname, _path);
+        item.name     = VolGen::GetRelativePath(item.fullname, _path);
         item.size     = fmb;
         item.vratio   = vrt;
 
@@ -436,6 +428,7 @@ VolGen::createVolumes ( const std::string & path )
     return;
 }
 
+// -------------------------------------------------------------- //
 
 /**  Displays the created Volume list */
 void
@@ -463,6 +456,7 @@ VolGen::displayVolumes ( bool show )
     return;
 }
 
+// -------------------------------------------------------------- //
 
 /**  Generates the volume linkage in the given path */
 void
@@ -500,7 +494,7 @@ VolGen::generateVolumes ( const std::string & volgenpath )
             std::string lpath; // = slink; 
 
             slink.append(item.name);
-            lpath = FileNode::GetPathOnly(item.name);
+            lpath = VolGen::GetPathName(item.name);
 
             if ( ! lpath.empty() ) {
                 std::string subdir = volpath;
@@ -524,6 +518,7 @@ VolGen::generateVolumes ( const std::string & volgenpath )
     return;
 }
 
+// -------------------------------------------------------------- //
 
 /** Determines the size of the a directory */
 uint64_t
@@ -581,6 +576,7 @@ VolGen::setDebug ( bool d )
     _debug = d;
 }
 
+// -------------------------------------------------------------- //
 
 /** Creates a string of the next volume name in the list */
 std::string
@@ -607,6 +603,49 @@ VolGen::GetCurrentPath()
 
     return path;
 }
+
+// -------------------------------------------------------------- //
+
+std::string
+VolGen::GetFileName ( const std::string & fqfn )
+{
+    std::string name;
+    int indx = -1;
+
+    indx = StringUtils::LastIndexOf(fqfn, "/");
+    name = fqfn.substr(indx+1);
+
+    return name; 
+}
+
+std::string
+VolGen::GetPathName ( const std::string & fqfn )
+{
+    std::string path;
+    int indx = -1;
+
+    indx = StringUtils::LastIndexOf(fqfn, "/");
+    if ( indx > 0 )
+        path = fqfn.substr(0, indx);
+
+    return path;
+}
+
+std::string
+VolGen::GetRelativePath ( const std::string & fqfn, 
+                          const std::string & path )
+{
+    std::string name, dir = path;
+
+    if ( ! StringUtils::EndsWith(dir, "/") )
+        dir.append("/");
+
+    name = fqfn.substr(dir.length());
+
+    return name;
+}
+
+// -------------------------------------------------------------- //
 
 }  // namespace
 
