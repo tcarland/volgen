@@ -1,4 +1,6 @@
-/** @file volgen_main.cpp
+/**
+  * @file volgen_main.cpp
+  *
   * An application for generating volumes of a given size based
   * on a file system directory.  Intended for performing backups
   * to various media types such as DVD-RW, USB Flash, etc.

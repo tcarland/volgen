@@ -1,5 +1,7 @@
 /** @file FileNode.hpp
   *
+  * FileNode objects as stored in the DirNode object.
+  * 
   * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
   * VolGen is free software: you can redistribute it and/or modify
@@ -33,7 +35,8 @@ class FileNode;
 typedef std::set<FileNode>  FileNodeSet;
 
 /**  Represents a filesytem filenode; the associated filename with
-  *  filesize and blocksize attributes.
+  *  filesize and blocksize attributes. This is contained as a list
+  *  within a DirNode object.
  **/
 class FileNode {
 

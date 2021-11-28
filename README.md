@@ -1,14 +1,14 @@
 VolGen - Disk Volume Generator
 ===============================
 
-  A tool for creating disk *volumes* from a given filesystem path.
+A tool for creating disk *volumes* from a given filesystem path.
 This is intended for performing backups to static media types such 
 as DVD-RW, CD-RW, USB Flash, or for manageable large objects in cold 
 storage.
 
-  Requires:
-   * The *tcamake* gnumake wrapper: https://github.com/tcarland/tcamake.git
-   * The *tcanetpp* library:  https://github.com/tcarland/tcanetpp.git
+Requirements:
+   * The [tcamake](https://github.com/tcarland/tcamake.git) gnu-make wrapper:
+   * The [tcanetpp](https://github.com/tcarland/tcanetpp.git) library
 
 The tool builds a tree of volumes in the special path `.volgen` of the  
 working directory (by default, but can be defined by providing `--archive`)
@@ -40,14 +40,6 @@ current while avoiding a rewrite of all volumes.
   $ cd tcanetpp 
   $ source resources/tcanetpp_release_mt
   $ make
-  ```
-
-- Ensure the taglib library is installed, including the 
-  *development* package.
-  ```
-  $ sudo apt install libtag1-dev   # ubuntu
-  # or 
-  $ sudo yum install taglib-devel  # rhel
   ```
 
 - Build VolGen

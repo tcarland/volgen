@@ -1,4 +1,6 @@
-/** @file VolGen.h
+/** 
+  * @file VolGen.h
+  *
   * An application for generating volumes of a given size, based
   * on a file system directory. Intended for turning a large set 
   * of binary assets into a set of more manageable sized groups of 
@@ -37,7 +39,7 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v21.01"
+#define VOLGEN_VERSION       "v21.04"
 #define VOLGEN_LICENSE       "Copyright (c)2009-2021 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"

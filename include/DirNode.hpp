@@ -1,5 +1,9 @@
 /** @file DirNode.hpp
   *
+  * DirNode objects are the parents of DirNode and FileNode objects
+  * that represent our filesystem tree. DirNode is the core object
+  * of the HeirarchicalStringTree container managed by VolGen.
+
   * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
   *
   * Volgen is free software: you can redistribute it and/or modify
@@ -33,7 +37,7 @@ class DirNode;
 /**  DirNode represents a filesystem directory node within
   *  our custom DirectoryTree (the DirTree object). Each
   *  instance holds a list of 'FileNode' assets for this
-  *  directory level only, as our tree maintains the directory
+  *  directory level only, as the tree maintains the directory
   *  structure of DirNodes.
  **/
 class DirNode {
