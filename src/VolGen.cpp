@@ -1,7 +1,7 @@
 /**
   * @file   VolGen.cpp
   *
-  * Copyright (c) 2009-2021 Timothy C. Arland <tcarland@gmail.com>
+  * Copyright (c) 2009-2022 Timothy C. Arland <tcarland@gmail.com>
   *
   * VolGen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -75,13 +75,11 @@ struct PrintTreePredicate {
         std::cout << std::setw(20) << std::setiosflags(std::ios_base::left) << "Size (Kb) "
                   << std::setw(18) << "Size (Mb)"
                   << std::setw(8)  << "D/F"
-                  << " Directory"
-                  << std::endl;
+                  << " Directory"  << std::endl;
         std::cout << std::setw(20) << std::setiosflags(std::ios_base::left) << "----------"
                   << std::setw(18) << "--------"
                   << std::setw(8)  << "------"
-                  << "----------------------"
-                  << std::endl;
+                  << "----------------------" << std::endl;
     }
 
     void operator() ( DirTree::Node * node )
@@ -644,8 +642,6 @@ VolGen::GetRelativePath ( const std::string & fqfn,
 
     return name;
 }
-
-// -------------------------------------------------------------- //
 
 }  // namespace
 

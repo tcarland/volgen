@@ -4,7 +4,7 @@
 #
 PNAME=${0##\/.*}
 AUTHOR="tcarland@gmail.com"
-VERSION="v21.01"
+VERSION="v22.04"
 
 voldir=".volgen"
 prefix=
@@ -65,7 +65,6 @@ if [ -z "$prefix" ]; then
     echo "$usage"
     exit 1
 fi
-
 
 mmw=$( ls . | grep -i "$prefix" )
 vols=$( ls .volgen/ | grep "Volume_" )
