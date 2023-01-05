@@ -1,3 +1,5 @@
+# tcamake styled Makefile
+#
 TOPDIR = ..
 
 NEED_SOCKET = 1

@@ -8,7 +8,7 @@
   * alternate media types such as DVD-RW, CD-RW, USB Flash, 
   * external storage, etc.
   *
-  * Copyright (c) 2009-2022 Timothy C. Arland <tcarland@gmail.com>
+  * Copyright (c) 2009-2023 Timothy C. Arland <tcarland@gmail.com>
   *
   * VolGen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -39,8 +39,8 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v22.04"
-#define VOLGEN_LICENSE       "Copyright (c)2009-2022 Timothy C. Arland <tcarland@gmail.com>"
+#define VOLGEN_VERSION       "v23.01"
+#define VOLGEN_LICENSE       "Copyright (c)2009-2023 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"
 #define VOLGEN_DEFAULT_NAME  "Volume_"
