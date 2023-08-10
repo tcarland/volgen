@@ -4,7 +4,7 @@
 #
 PNAME=${0##\/.*}
 AUTHOR="tcarland@gmail.com"
-VERSION="v23.01"
+VERSION="v23.08"
 
 voldir=".volgen"
 prefix=
