@@ -1,7 +1,5 @@
-# tcamake styled Makefile
+# tcamake Makefile
 #
-TOPDIR = ..
-
 NEED_SOCKET = 1
 NEED_PTHREADS = 1
 NEED_TCANETPP = 1
@@ -19,7 +17,15 @@ OBJS =      src/VolGen.o src/volgen_main.o
 ALL_OBJS =  $(OBJS)
 ALL_BINS =  $(BIN)
 
-include $(TOPDIR)/tcamake/tcamake_include
+# -------------------------
+
+ifeq ($(TCAMAKE_HOME),)
+	TCAMAKE_HOME := $(shell realpath ../tcamake)
+endif
+
+include $(TCAMAKE_HOME)/tcamake_include
+
+# -------------------------
 
 all: volgen
 
