@@ -40,7 +40,7 @@ current while avoiding a rewrite of all volumes.
   looking for dependencies in the current parent rather than
   system locations such as */usr/lib*.
   ```
-  $ export TCAMAKE_PROJECT=1
+  $ export TCAMAKE_PROJECT=$(realpath .)
   ```
 
 - Build the tcanetpp library. The build environment for the 

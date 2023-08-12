@@ -66,8 +66,8 @@ if [ -z "$prefix" ]; then
     exit 1
 fi
 
-mmw=$( ls . | grep -i "$prefix" )
-vols=$( ls .volgen/ | grep "Volume_" )
+mmw=$(ls . | grep -i "$prefix")
+vols=$(ls .volgen/ | grep "Volume_")
 tsz=0
 
 declare -A saved
@@ -75,13 +75,13 @@ declare -A sizes
 declare -a missing
 
 for vol in $vols; do
-    items=$( ls -1 ".volgen/${vol}/" )
+    items=$(ls -1 ".volgen/${vol}/")
 
     for f in $items; do
         saved[$f]="$vol"
     done
 
-    size=$( du -L -m -c .volgen/${vol} | grep total 2>/dev/null | awk '{ print $1 }' )
+    size=$(du -L -m -c .volgen/${vol} | grep total 2>/dev/null | awk '{ print $1 }')
     tsz=$((tsz + size))
 
     printf " $vol  =  $size Mb\n"
@@ -112,7 +112,7 @@ printf " ----------------- \n";
 
 tsz=0
 for m in ${missing[@]}; do 
-    size=$( du -L -m -c ./$m/ | grep total 2>/dev/null | awk '{ print $1 }' )
+    size=$(du -L -m -c ./$m/ | grep total 2>/dev/null | awk '{ print $1 }')
     printf " $m  [ $size Mb ] \n"
     tsz=$(( $tsz + $size ))
 done

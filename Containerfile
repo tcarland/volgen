@@ -5,4 +5,4 @@ WORKDIR /opt
 RUN mkdir -p /opt/volgen
 COPY . /opt/volgen
 
-RUN  cd volgen && make
+RUN  cd volgen && source resources/volgen_release.profile && make
