@@ -5,7 +5,7 @@
   * on a file system directory.  Intended for performing backups
   * to various media types such as DVD-RW, USB Flash, etc.
   *
-  * Copyright (c) 2009-2023 Timothy C. Arland <tcarland@gmail.com>
+  * Copyright (c) 2009-2024 Timothy C. Arland <tcarland@gmail.com>
   *
   * VolGen is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
