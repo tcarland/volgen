@@ -7,7 +7,7 @@
 #  -r RockRidge with reset perms
 #
 #  @file    mkiso.sh
-#  @author  Timothy C. Arland <tcarland@gmail.com>
+#  @author  Timothy C. Arland <tcarland at gmail dot com>
 #
 PNAME=${0##*\/}
 VERSION="v24.02"

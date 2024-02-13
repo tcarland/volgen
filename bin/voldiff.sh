@@ -2,8 +2,9 @@
 #
 #  voldiff.sh 
 #
+#  @file    voldiff.sh
+#  @author  Timothy C. Arland <tcarland at gmail dot com>
 PNAME=${0##\/.*}
-AUTHOR="tcarland@gmail.com"
 VERSION="v24.02"
 
 voldir=".volgen"
