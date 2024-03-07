@@ -27,7 +27,6 @@
 *.exe
 *.out
 *.app
+volgen
 
 *.sw*
-
-volgen
