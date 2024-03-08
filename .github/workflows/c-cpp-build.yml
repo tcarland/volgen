@@ -1,4 +1,4 @@
-name: C/C++ Build CI
+name: Docker Build CI
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-    - name: Build and Push the Docker image
+    - name: Build Docker image
       uses: docker/build-push-action@v4
       with:
         context: .
