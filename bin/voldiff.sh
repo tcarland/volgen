@@ -5,7 +5,7 @@
 #  @file    voldiff.sh
 #  @author  Timothy C. Arland <tcarland at gmail dot com>
 PNAME=${0##\/.*}
-VERSION="v24.10"
+VERSION="v25.02"
 
 voldir=".volgen"
 prefix=

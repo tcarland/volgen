@@ -29,30 +29,30 @@ current while avoiding a rewrite of all volumes.
 ## Building VolGen
 
 - Obtain the requirements.
-  ```
-  $ mkdir src && cd src
-  $ git checkout https://github.com/tcarland/tcamake.git
-  $ git checkout https://github.com/tcarland/tcanetpp.git
-  $ git checkout https://github.com/tcarland/volgen.git
+  ```bash
+  mkdir src && cd src
+  git checkout https://github.com/tcarland/tcamake.git
+  git checkout https://github.com/tcarland/tcanetpp.git
+  git checkout https://github.com/tcarland/volgen.git
   ```
 
 - The *tcamake* project uses an environment flag to define 
   looking for dependencies in the current parent rather than
   system locations such as */usr/lib*.
-  ```
-  $ export TCAMAKE_PROJECT=$(realpath .)
+  ```bash
+  export TCAMAKE_PROJECT=$(realpath .)
   ```
 
 - Build the tcanetpp library. The build environment for the 
   lib is needed and can be found or defined in *resources*.
-  ```
-  $ cd tcanetpp 
-  $ source resources/tcanetpp_release_mt
-  $ make arlib
+  ```bash
+  cd tcanetpp 
+  source resources/tcanetpp_release_mt
+  make arlib
   ```
 
 - Build VolGen
-  ```
-  $ cd ../volgen
-  $ make
+  ```bash
+  cd ../volgen
+  make
   ```
