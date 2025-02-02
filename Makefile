@@ -8,7 +8,7 @@ ifdef TCAMAKE_DEBUG
 OPT_FLAGS = -g
 endif
 
-CXXFLAGS=   -std=c++17
+CXXFLAGS=   -std=c++23
 LIBS =      -lrt
 INCLUDES =  -Iinclude
 
