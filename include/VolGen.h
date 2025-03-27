@@ -1,11 +1,11 @@
-/** 
+/**
   * @file VolGen.h
   *
   * An application for generating volumes of a given size, based
-  * on a file system directory. Intended for turning a large set 
-  * of binary assets into a set of more manageable sized groups of 
-  * assets for use in transferring; network or as backups to 
-  * alternate media types such as DVD-RW, CD-RW, USB Flash, 
+  * on a file system directory. Intended for turning a large set
+  * of binary assets into a set of more manageable sized groups of
+  * assets for use in transferring; network or as backups to
+  * alternate media types such as DVD-RW, CD-RW, USB Flash,
   * external storage, etc.
   *
   * Copyright (c) 2009-2025 Timothy C. Arland <tcarland@gmail.com>
@@ -39,7 +39,7 @@ using namespace tcanetpp;
 
 namespace volgen {
 
-#define VOLGEN_VERSION       "v25.02"
+#define VOLGEN_VERSION       "v25.03"
 #define VOLGEN_LICENSE       "Copyright (c)2009-2025 Timothy C. Arland <tcarland@gmail.com>"
 
 #define VOLGEN_ARCHIVEDIR    ".volgen"
@@ -49,6 +49,7 @@ namespace volgen {
 
 
 typedef tcanetpp::HeirarchicalStringTree<DirNode>  DirTree;
+
 
 struct VolumeItem {
     std::string  fullname;
@@ -60,6 +61,7 @@ struct VolumeItem {
 };
 
 typedef std::list<VolumeItem> ItemList;
+
 
 struct Volume {
     std::string  name;
@@ -124,13 +126,11 @@ class VolGen {
     static std::string  GetRelativePath ( const std::string & fqfn,
                                           const std::string & path );
 
-
   private:
 
     void     reset();
     bool     readDirectory ( const std::string & path );
     void     createVolumes ( const std::string & path );
-
 
   private:
 
