@@ -1,4 +1,4 @@
-FROM ghcr.io/tcarland/tcalibcore:v25.02.01
+FROM ghcr.io/tcarland/tcalibcore:v25.05.15
 
 WORKDIR /opt
 
@@ -6,6 +6,8 @@ USER root
 
 COPY . /opt/volgen
 
-RUN cd volgen && source resources/volgen_release.profile && make
+RUN cd volgen && \
+    source resources/volgen_release.env && \
+    make && make clean
 
 USER tdh

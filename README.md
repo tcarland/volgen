@@ -6,9 +6,31 @@ This is intended for performing backups to static media types such
 as DVD-RW, CD-RW, USB Flash, or for other, more manageable large 
 objects in cold storage. 
 
+<notice>
+* VolGen - Volume Generator
+*
+* Copyright (c) 2009-2025 Timothy C. Arland <tcarland@gmail.com>
+*
+* VolGen is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* VolGen is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with VolGen.  If not, see <https://www.gnu.org/licenses/>.
+*
+</notice>
+
+## Overview
+
 Requirements:
-   * The [tcamake](https://github.com/tcarland/tcamake.git) gnu-make wrapper:
-   * The [tcanetpp](https://github.com/tcarland/tcanetpp.git) library
+ * The [tcamake](https://github.com/tcarland/tcamake.git) gnu-make wrapper
+ * The [tcanetpp](https://github.com/tcarland/tcanetpp.git) library
 
 **VolGen** operates by creating a metadata directory, `.volgen`, in 
 the working directory (or as specified), made up of directories of 
@@ -34,13 +56,6 @@ current while avoiding a rewrite of all volumes.
   git checkout https://github.com/tcarland/tcamake.git
   git checkout https://github.com/tcarland/tcanetpp.git
   git checkout https://github.com/tcarland/volgen.git
-  ```
-
-- The *tcamake* project uses an environment flag to define 
-  looking for dependencies in the current parent rather than
-  system locations such as */usr/lib*.
-  ```bash
-  export TCAMAKE_PROJECT=$(realpath .)
   ```
 
 - Build the tcanetpp library. The build environment for the 
