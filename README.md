@@ -58,13 +58,6 @@ current while avoiding a rewrite of all volumes.
   git checkout https://github.com/tcarland/volgen.git
   ```
 
-- The *tcamake* project uses an environment flag to define 
-  looking for dependencies in the current parent rather than
-  system locations such as */usr/lib*.
-  ```bash
-  export TCAMAKE_PROJECT=$(realpath .)
-  ```
-
 - Build the tcanetpp library. The build environment for the 
   lib is needed and can be found or defined in *resources*.
   ```bash
