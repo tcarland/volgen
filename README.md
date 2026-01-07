@@ -6,10 +6,11 @@ This is intended for performing backups to static media types such
 as DVD-RW, CD-RW, USB Flash, or for other, more manageable large 
 objects in cold storage. 
 
+
 <notice>
 * VolGen - Volume Generator
 *
-* Copyright (c) 2009-2025 Timothy C. Arland <tcarland@gmail.com>
+* Copyright (c) 2009-2026 Timothy C. Arland <tcarland@gmail.com>
 *
 * VolGen is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,7 @@ objects in cold storage.
 * along with VolGen.  If not, see <https://www.gnu.org/licenses/>.
 *
 </notice>
+
 
 ## Overview
 
