@@ -77,7 +77,7 @@ class DirNode {
         return this->files.size();
     }
 
-    void     setNodeSize ( uint32_t sz )
+    void setNodeSize ( uint32_t sz )
     {
         dnodesz = sz;
     }

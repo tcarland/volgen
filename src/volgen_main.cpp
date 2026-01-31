@@ -62,7 +62,7 @@ int main ( int argc, char **argv )
 {
     std::string  curdir, target, voldir;
     char         optChar;
-    char *       dirstr = NULL;
+    char *       dirstr = nullptr;
     long         volsz  = VOLGEN_VOLUME_MB;
     bool         debug  = false;
     bool         dogen  = true;
@@ -73,7 +73,7 @@ int main ( int argc, char **argv )
                                       {"help",    no_argument, 0, 'h'},
                                       {"detail",  no_argument, 0, 'D'}, 
                                       {"list",    no_argument, 0, 'L'}, 
-                                      {"size", required_argument, 0, 's'},
+                                      {"size",    required_argument, 0, 's'},
                                       {"version", no_argument, 0, 'V'}
                                     };
     int optindx = 0;
@@ -129,7 +129,7 @@ int main ( int argc, char **argv )
         }
     }
 
-    if ( dirstr != NULL ) {
+    if ( dirstr != nullptr ) {
         voldir = dirstr;
         ::free(dirstr);
     } else {
