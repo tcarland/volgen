@@ -127,7 +127,7 @@ struct PrintTreePredicate {
 
 
 VolGen::VolGen ( const std::string & path )
-    : _curv(NULL),
+    : _curv(nullptr),
       _path(path),
       _volsz(VOLGEN_VOLUME_MB),
       _blksz(VOLGEN_BLOCKSIZE),
@@ -163,7 +163,7 @@ VolGen::reset()
         delete *vIter;
 
     _vols.clear();
-    _curv = NULL;
+    _curv = nullptr;
 }
 
 
@@ -192,15 +192,15 @@ VolGen::readDirectory ( const std::string & path )
     bool           isLink  = false;
     bool           result  = true;
 
-    DirTree::Node * node = NULL;
+    DirTree::Node * node   = nullptr;
 
     if ( _debug )
         std::cout << "VolGen::readDirectory() " << path << std::endl;
 
-    if ( (dirp = ::opendir(path.c_str())) == NULL )
+    if ( (dirp = ::opendir(path.c_str())) == nullptr )
         return false;
 
-    while ( (dire = ::readdir(dirp)) != NULL )
+    while ( (dire = ::readdir(dirp)) != nullptr )
     {
         isLink = false;
         dname  = dire->d_name;
@@ -233,11 +233,11 @@ VolGen::readDirectory ( const std::string & path )
             blks = (fsb.st_blocks * _blksz);
             node = _dtree.find(dname);
 
-            if ( node == NULL )
+            if ( node == nullptr )
             {
                 DirTree::BranchNodeList  branches;
                 node = _dtree.insert(dname, std::inserter(branches, branches.begin()));
-                if ( node == NULL ) {
+                if ( node == nullptr ) {
                     std::cout << "Failed to insert path into DirTree " << std::endl;
                     result = false;
                     break;
@@ -253,10 +253,10 @@ VolGen::readDirectory ( const std::string & path )
             blks = (fsb.st_blocks * _blksz);
             node = _dtree.find(path);
 
-            if ( node == NULL ) {
+            if ( node == nullptr ) {
                 DirTree::BranchNodeList  branches;
                 node = _dtree.insert(path, std::inserter(branches, branches.begin()));
-                if ( node == NULL ) {
+                if ( node == nullptr ) {
                     std::cout << "Failed to insert path in DirTree " << path << std::endl;
                     result = false;
                     break;
@@ -306,7 +306,7 @@ VolGen::displayTree()
     else
     {
         DirTree::Node * node = _dtree.find(_path);
-        if ( node == NULL )
+        if ( node == nullptr )
             return;
         _dtree.depthFirstTraversal(node, show);
     }
@@ -325,15 +325,15 @@ VolGen::createVolumes ( const std::string & path )
 {
     DirTree::Node * node = _dtree.find(path);
 
-    if ( node == NULL ) {
+    if ( node == nullptr ) {
         std::cout << "volgen::createVolumes() Error locating path: "
             << path << std::endl;
         return;
     }
 
-    Volume * vol = NULL;
+    Volume * vol = nullptr;
 
-    if ( _curv == NULL ) {
+    if ( _curv == nullptr ) {
         _curv = new Volume(VolGen::GetVolumeName(_vols.size()));
         _vols.push_back(_curv);
     }
@@ -524,7 +524,7 @@ VolGen::getDirSize ( const std::string & path )
 {
     DirTree::Node * node = _dtree.find(path);
 
-    if ( node == NULL )
+    if ( node == nullptr )
         return 0;
 
     DirSizePredicate  dirsize;
@@ -594,7 +594,7 @@ VolGen::GetCurrentPath()
     char         pname[TCANET_MEDSTRLINE];
     size_t       psz = TCANET_MEDSTRLINE;
 
-    if ( ::getcwd(&pname[0], psz) == NULL )
+    if ( ::getcwd(&pname[0], psz) == nullptr )
         return path;
 
     path.assign(pname);
