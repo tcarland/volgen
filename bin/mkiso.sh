@@ -10,7 +10,7 @@
 #  @author  Timothy C. Arland <tcarland at gmail dot com>
 #
 PNAME=${0##*\/}
-VERSION="v26.04"
+VERSION="v26.08"
 
 author=
 target=
