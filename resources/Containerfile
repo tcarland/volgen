@@ -1,4 +1,4 @@
-FROM ghcr.io/tcarland/tcalibcore:v26.04.02
+FROM ghcr.io/tcarland/tcalibcore:v26.07.27
 
 WORKDIR /opt
 
